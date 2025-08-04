@@ -22,6 +22,9 @@ then
     git add templates/
     #git add files/
     git add index.html
+    git add modal.css
+    git add modal.js 
+    git add script.js
     git add commit.sh
 
     git commit -m "by_script"
