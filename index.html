@@ -10,13 +10,24 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
     <link rel="stylesheet" href="modal.css">
+    <link rel="icon" href="assets/athlete.png">
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-    <script src="modal.js"></script>
+    <script src="scripts/modal.js"></script>
+    <script src="scripts/backend.js"></script>
+    <script src="scripts/validation.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/prototype.js"></script>
+
 
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VG9W6BRS4E"></script>
 
 
     <style>
+
+        nav a{
+            cursor: pointer;
+        }
+
         .footer-bottom-wrapper{
             justify-content: center;
         }
@@ -113,7 +124,7 @@
                           </nav>
                       </div>
                         <a href="#blog" class="nav-link w-nav-link">Blog</a>
-                        <a href="#login" class="nav-link w-nav-link">Login</a>
+                        <a onclick="openHTML('login.html','Login')" class="nav-link w-nav-link">Login</a>
 
                         <div class="tablet-header-button-wrapper"><a onclick="openHTML('login.html','pop-up','Login')" class="primary-button black-button w-button">Junte-se a Nós</a></div>
                     </div>
@@ -293,7 +304,7 @@
 <!--    
     <script src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/js/webflow.schunk.303e3f40707320cc.js" type="text/javascript"></script>
 -->
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
 
     <script src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/js/webflow.fcbd50c3.3a0a9ef1c5c25f39.js" type="text/javascript"></script>
 
