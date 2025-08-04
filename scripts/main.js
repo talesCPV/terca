@@ -20,6 +20,23 @@ function forceHTTPS(){
     location.protocol !== 'https:' ? location.replace(`https:${location.href.substring(location.protocol.length)}`) : null
 }
 
+function alterLogin(){
+    const lg = document.querySelectorAll('.login-link')
+    for(let i=0; i<lg.length; i++){
+        lg[i].innerHTML = localStorage.getItem('hash') != null ? 'Logout' : 'Login'
+    }
+    alterUser()
+}
+
+function alterUser(){
+    const lg = document.querySelectorAll('.user-link')
+    for(let i=0; i<lg.length; i++){
+        lg[i].innerHTML = localStorage.getItem('nome') != null ? localStorage.getItem('nome') : 'Junte-se a Nós'
+    }
+}
+
+
+
 /*  ABAS */
 
 function pictab(e){

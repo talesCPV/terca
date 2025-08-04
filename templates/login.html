@@ -44,6 +44,14 @@
             font-size: .8em;
         }
 
+        .close-btn{
+            font-size: 2em;
+            position: absolute;
+            top: 0;
+            right: 15px;
+            cursor: pointer;
+        }
+
         .top-logo{
             width: 100%;
             display: flex;
@@ -150,73 +158,95 @@
                 <p>Desenvolvido por Tales C. Dantas</p>
             </div>
 
+            <div class="close-btn">
+                <p id="close-btn">&times;</p>
+            </div>
+
         </div>
     </div>
 
 </template>
 <script>
 
-    localStorage.clear();                
-    
-    document.querySelector('#btnEye').addEventListener('click',()=>{
-        const eye = document.querySelector('#btnEye')
-        const edt = document.querySelector('#edtPass')
 
-        if(eye.classList.contains('mdi-eye-outline')){
-            eye.classList.remove('mdi-eye-outline')
-            eye.classList.add('mdi-eye-off-outline')
-            edt.type = 'password'
-        }else{
-            eye.classList.remove('mdi-eye-off-outline')
-            eye.classList.add('mdi-eye-outline')
-            edt.type = 'text'
-        }
-        
-    })
+    if(localStorage.getItem('hash') != null){
+        localStorage.clear();
+        alterLogin()
+        document.querySelector('.overlay').style.display = 'none'
+    }else{
+        localStorage.clear();  
 
-    document.querySelector('#btnLogin').addEventListener('click',()=>{
+        document.querySelector('#btnEye').addEventListener('click',()=>{
+            const eye = document.querySelector('#btnEye')
+            const edt = document.querySelector('#edtPass')
 
-        if(checkField(['edtUser','edtPass'])){
-            let notfound = true            
-            let user = document.querySelector('#edtUser').value
-            let pass = document.querySelector('#edtPass').value
-            const params = new Object;
-                params.user = user;
-                params.pass = pass;
+            if(eye.classList.contains('mdi-eye-outline')){
+                eye.classList.remove('mdi-eye-outline')
+                eye.classList.add('mdi-eye-off-outline')
+                edt.type = 'password'
+            }else{
+                eye.classList.remove('mdi-eye-off-outline')
+                eye.classList.add('mdi-eye-outline')
+                edt.type = 'text'
+            }
+            
+        })
 
-            const myPromisse = queryDB(params,'LOG-0');
-            myPromisse.then((resolve)=>{
-                const json = JSON.parse(resolve)
-                if(json.length>0){
-                    if(Number(json[0].access) < 0){
-                        alert('Este cadastro ainda não foi confirmado, favor verificar em sua caixa de entrada nosso email de confirmação.')
-                        confirmaUser(json[0].email,json[0].asaas_id)
+        document.querySelector('#btnLogin').addEventListener('click',()=>{
+
+            if(checkField(['edtUser','edtPass'])){
+                let notfound = true            
+                let user = document.querySelector('#edtUser').value
+                let pass = document.querySelector('#edtPass').value
+                const params = new Object;
+                    params.user = user;
+                    params.pass = pass;
+
+                const myPromisse = queryDB(params,'LOG-0');
+                myPromisse.then((resolve)=>{
+                    const json = JSON.parse(resolve)
+                    if(json.length>0){
+                        if(Number(json[0].access) < 0){
+                            alert('Este cadastro ainda não foi confirmado, favor verificar em sua caixa de entrada nosso email de confirmação.')
+                            confirmaUser(json[0].email,json[0].asaas_id)
+                        }else{
+                            localStorage.setItem("id_user",json[0].id)
+                            localStorage.setItem("hash",json[0].hash)
+                            localStorage.setItem("access",json[0].access)
+                            localStorage.setItem("nome",json[0].nome)
+                            localStorage.setItem("email",json[0].email)
+//                            openHTML('dashboard.html','main-screen')
+    //                      document.documentElement.requestFullscreen();
+                            document.querySelector('.overlay').style.display = 'none'
+                            alterLogin()
+                        }
                     }else{
-                        localStorage.setItem("id_user",json[0].id)
-                        localStorage.setItem("hash",json[0].hash)
-                        localStorage.setItem("access",json[0].access)
-                        localStorage.setItem("nome",json[0].nome)
-                        localStorage.setItem("email",json[0].email)
-                        openHTML('dashboard.html','main-screen')
-//                      document.documentElement.requestFullscreen();
+                        alert('Usuário ou Senha inválido!')
+                        document.querySelector('#edtUser').focus()
                     }
-                }else{
-                    alert('Usuário ou Senha inválido!')
-                    document.querySelector('#edtUser').focus()
-                }
-            })
-        }
-    })
+                })
+            }
+        })
 
-    const parametros = window.location.search.substring(1,99999).split('&')
-    for(let i=0; i<parametros.length; i++){
-        const param = parametros[i].split('=')
-        if(param[0]=='email'){
-            document.querySelector('#edtUser').value = param[1]
-        }else if(param[0]=='pass'){
-            document.querySelector('#edtPass').value = param[1]
+        const parametros = window.location.search.substring(1,99999).split('&')
+        for(let i=0; i<parametros.length; i++){
+            const param = parametros[i].split('=')
+            if(param[0]=='email'){
+                document.querySelector('#edtUser').value = param[1]
+            }else if(param[0]=='pass'){
+                document.querySelector('#edtPass').value = param[1]
+            }
         }
+
+        document.querySelector('.close-btn').addEventListener('click',()=>{
+            document.querySelector('.overlay').style.display = 'none'
+        })
+
+                      
     }
+
+    
+    
 
 
 </script>

@@ -1,4 +1,4 @@
-const main_data = new Object
+
 async function openHTML(template='',where="main-screen",label="", data="",width='auto'){
     document.querySelector('.w-nav-overlay').style = 'none' 
     width = width == 'auto' ? where =='web-window' ? '100%' : (document.querySelector('body').offsetWidth - 160)+'px' : width+'px'
@@ -31,7 +31,8 @@ async function openHTML(template='',where="main-screen",label="", data="",width=
                     newModal(label,body.innerHTML,width,page_name,where)
                 }else{
                     const cont = body.innerHTML.replace('<h1>', `<span id="close-screen" onclick="document.querySelector('#imgLogo').click()">&times;</span><h1>`)                    
-                    document.getElementById(where).innerHTML = cont;                    
+                    document.getElementById(where).innerHTML = cont;
+
                 }
 
 //                closeMenu()
