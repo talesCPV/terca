@@ -57,7 +57,7 @@
 
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
-        if(checkField(['edtNome','edtEmail']) && checkRepass(['edtPass','edtRepass'])){
+        if(checkField(['edtNome','edtEmail']) && checkRepass(['edtPass','edtRepass']) && (!newuser || checkField(['edtPass'])) ){
 
             const params = new Object;  
                 params.id = newuser ? 0 : localStorage.getItem('id_user')

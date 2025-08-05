@@ -1,0 +1,47 @@
+<template>
+    <style></style>
+
+    <div class="inline">
+        <label for="edtNome">Nome</label>
+        <input type="text" id="edtNome" maxlength="30">
+    </div>
+
+    <div class="inline">
+        <label for="cmbPos">Posição</label>
+        <select id="cmbPos">
+            <option value="Ponteiro">Ponteiro</option>
+            <option value="Oposto">Oposto</option>
+            <option value="Levantador">Levantador</option>
+            <option value="Libero">Líbero</option>
+            <option value="Central">Central</option>
+            <option value="atacante" selected>Atacante Geral</option>
+        </select>
+    </div>
+
+    <div class="inline">
+        <label for="cmbSexo">Sexo</label>
+        <select id="cmbSexo">
+            <option value="M" selected>Masculino</option>
+            <option value="F">Feminino</option>
+        </select>
+    </div>
+
+    <div class="line">
+        <button id="btnSave">Salvar</button>
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.new_atleta.data
+    const pageFunc = main_data.new_atleta.func
+    const pageScreen = document.querySelector('#card-new_atleta')
+
+    function pageStart(){
+        
+
+    }
+
+    pageStart()
+
+</script>

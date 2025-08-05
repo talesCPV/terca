@@ -17,7 +17,7 @@ DELIMITER $$
 		IN Iallow varchar(80),
 		IN Ihash varchar(64)
     )
-	BEGIN    
+	BEGIN        
 		SET @access = (SELECT IFNULL(access,-1) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		SET @quer =CONCAT('SET @allow = (SELECT ',@access,' IN ',Iallow,');');
 			PREPARE stmt1 FROM @quer;
@@ -52,28 +52,24 @@ DELIMITER $$
 		IN Isenha varchar(30),
         IN Iaccess int(11)
     )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			IF(Iemail="")THEN
-				DELETE FROM tb_mail WHERE id_from=Iid OR id_to=Iid;
-				DELETE FROM tb_usuario WHERE id=Iid;
-                DELETE FROM tb_user_cli WHERE id_user=Iid;
-            ELSE			
-				IF(Iid=0)THEN
-					INSERT INTO tb_usuario (email,hash,access,nome)VALUES(Iemail,SHA2(CONCAT(Iemail, Isenha), 256),Iaccess,Inome);
-                ELSE
-					IF(Isenha="")THEN
-						UPDATE tb_usuario SET nome=Inome, email=Iemail, access=Iaccess WHERE id=Iid;
-                    ELSE
-						UPDATE tb_usuario SET nome=Inome, email=Iemail, hash=SHA2(CONCAT(Iemail, Isenha), 256), access=Iaccess WHERE id=Iid;
-                    END IF;
-                END IF;
-            END IF;
-            SELECT 1 AS ok;
-		ELSE 
-			SELECT 0 AS ok;
-        END IF;
+	BEGIN
+		IF(Iemail="")THEN
+			DELETE FROM tb_mail WHERE id_from=Iid OR id_to=Iid;
+			DELETE FROM tb_usuario WHERE id=Iid;
+			DELETE FROM tb_user_cli WHERE id_user=Iid;
+		ELSE			
+			IF(Iid=0)THEN
+				INSERT INTO tb_usuario (email,hash,access,nome)VALUES(Iemail,SHA2(CONCAT(Iemail, Isenha), 256),Iaccess,Inome);
+			ELSE
+				IF(Isenha="")THEN
+					UPDATE tb_usuario SET nome=Inome, email=Iemail, access=Iaccess WHERE id=Iid;
+				ELSE
+					UPDATE tb_usuario SET nome=Inome, email=Iemail, hash=SHA2(CONCAT(Iemail, Isenha), 256), access=Iaccess WHERE id=Iid;
+				END IF;
+			END IF;
+		END IF;
+		SELECT 1 AS ok;
+
 	END $$
 DELIMITER ;
 

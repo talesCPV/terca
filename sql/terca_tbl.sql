@@ -17,7 +17,7 @@ CREATE TABLE tb_usuario (
 DROP TABLE IF EXISTS tb_atleta;
 CREATE TABLE tb_atleta (
     id int(11) NOT NULL AUTO_INCREMENT,
-    nome varchar(70) NOT NULL,
+    nome varchar(30) NOT NULL,
     posicao varchar(10) NOT NULL,
     sexo varchar(1) NOT NULL DEFAULT "M",
     PRIMARY KEY (id)
