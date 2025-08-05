@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
     <link rel="stylesheet" href="style/modal.css">
+    <link rel="stylesheet" href="style/reset.css">
     <link rel="icon" href="assets/athlete.png">
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
     <script src="scripts/modal.js"></script>
@@ -47,6 +48,16 @@
 
         .landing-inner-pages-wrapper{
             grid-template-columns: 1fr 1fr;
+        }
+
+        .landing-customers-icon-wrapper{
+            padding-bottom: 20px;
+        }
+
+        .landing-customers-icon-wrapper:hover{
+            cursor: pointer;
+            color: rgb(255, 255, 255);
+            border-bottom: solid 5px;
         }
 
         @media screen and (max-width: 991px) {
@@ -157,13 +168,13 @@
                     <p data-w-id="3cb24c6c-4e51-f8a9-875b-510f937991a1" style="opacity:0" class="paragraph-benefits-lp">Veja quem são os guerreiros de Terça Feira</p>
                 </div>
                 <div class="landing-customers-content-right">
-                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a4-558f718d" class="landing-customers-icon-wrapper"><img src="assets/athlete.png" loading="lazy" alt="illustration" class="landing-icon-style" />
+                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a4-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','pop-up','Mensalistas',{'show':'mensal'})"><img src="assets/athlete.png" loading="lazy" alt="illustration" class="landing-icon-style" />
                         <p class="landing-paragraph-style">Mensalistas</p>
                     </div>
-                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a8-558f718d" class="landing-customers-icon-wrapper"><img src="assets/solo.png" loading="lazy" alt="illustration" class="landing-icon-style" />
+                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a8-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','pop-up','Avulsos',{'show':'mensal'})"><img src="assets/solo.png" loading="lazy" alt="illustration" class="landing-icon-style" />
                         <p class="landing-paragraph-style">Avulsos</p>
                     </div>
-                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a8-558f718d" class="landing-customers-icon-wrapper"><img src="assets/medal.png" loading="lazy" alt="illustration" class="landing-icon-style" />
+                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a8-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','pop-up','Classificação',{'show':'mensal'})"><img src="assets/medal.png" loading="lazy" alt="illustration" class="landing-icon-style" />
                       <p class="landing-paragraph-style">Classificação</p>
                   </div>
               </div>
@@ -292,7 +303,7 @@
             <div class="promotion-label-left">
                 <div class="promotion-label-holder">
                     <div class="promotion-label-paragraph">Torne-se um membro <span class="text-orange"> dos Racha de Terça</span> Cadastre-se gratuitamente</div>
-                    <div class="promotion-label-buttons-wrapper"><a onclick="openHTML('login.html','pop-up')" target="_blank" class="promotion-label-button w-inline-block">
+                    <div class="promotion-label-buttons-wrapper"><a onclick="openHTML('new_user.html','pop-up','Novo Usuário',{'new_user':1})" target="_blank" class="promotion-label-button w-inline-block">
                             <div>Fazer Cadastro</div>
                         </a>
                         <a href="#" target="_blank" class="promotion-label-button w-inline-block">

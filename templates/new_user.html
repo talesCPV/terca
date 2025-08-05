@@ -7,40 +7,84 @@
 
     </style>
 
-    <div class="overlay">
-        <div class="frm">
-            <div class="top-logo">
-                <img src="assets/logo.png" alt="" id="logo"> 
-            </div>
-            <div class="frm-input">
-                <span class="mdi mdi-account"></span>
-                <input type="email" id="edtUser" placeholder="Email" onkeyup="validaEmail(this)">
-            </div>
-            <div class="frm-input">
-                <span class="mdi mdi-key"></span>
-                <input type="password" id="edtPass" placeholder="Senha" onkeypress="return getEnter(event, 'btnLogin')">
-                <span id="btnEye" class="mdi mdi-eye-off-outline"></span>
-            </div>
-            <button id="btnLogin">Login</button>
+    <div class="frm-new_user">
 
-            <div class="risk"></div>
-
-            <div class="botton">
-                <p>Racha de Terça ver.1.0</p>
-                <p>Desenvolvido por Tales C. Dantas</p>
-            </div>
-
-            <div class="close-btn">
-                <p id="close-btn">&times;</p>
-            </div>
-
+        <div class="inline">
+            <label for="edtNome">Nome</label>
+            <input type="text" id="edtNome">
         </div>
+
+        <div class="inline">
+            <label for="edtEmail">Email</label>
+            <input type="email" id="edtEmail" onkeyup="validaEmail(this)">
+        </div>
+
+        <div class="inline">
+            <label for="edtPass">Password</label>
+            <input type="password" id="edtPass">
+        </div>
+
+        <div class="inline">
+            <label for="edtRepass">Repita o Password</label>
+            <input type="password" id="edtRepass">
+        </div>
+
+        <div class="line">
+            <button id="btnSave">Salvar</button>
+        </div>
+
     </div>
 
 </template>
 <script>
-    
+    const pageData = main_data.new_user.data
+    const pageFunc = main_data.new_user.func
+    const pageScreen = document.querySelector('#card-new_user')
+    const newuser = localStorage.getItem('hash') == null
+
+    function pageStart(){
+        if(newuser){
+
+        }else{
+            pageScreen.querySelector('#edtNome').value = localStorage.getItem('nome')
+            pageScreen.querySelector('#edtEmail').value = localStorage.getItem('email')
+            pageScreen.querySelector('#head-new_user').innerHTML = localStorage.getItem('email')
+            
+        }
 
 
+    }
+
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        if(checkField(['edtNome','edtEmail']) && checkRepass(['edtPass','edtRepass'])){
+
+            const params = new Object;  
+                params.id = newuser ? 0 : localStorage.getItem('id_user')
+                params.nome = pageScreen.querySelector('#edtNome').value.trim()
+                params.email = pageScreen.querySelector('#edtEmail').value.trim()               
+                params.pass = pageScreen.querySelector('#edtPass').value.trim()
+                params.access = newuser ? 1 : localStorage.getItem('access')
+            const myPromisse = queryDB(params,'USR-1');
+
+            myPromisse.then((resolve)=>{
+                const json = JSON.parse(resolve)
+                if(json[0].ok == '1'){
+                    setLog(`${localStorage.getItem('email')} -> Senha alterada pelo usuário`)
+                    alert('Cadastro efetuado com sucesso! Favor logar novamente.')
+                    localStorage.clear()
+                    this.location.reload(true)    
+                }else{
+                    alert('Houve algum problema, favor tentar novamente mais tarde.')
+                    setLog('Tentativa de alteração de senha falhou')
+                }
+                closeModal('new_user')
+            })
+        }   
+             
+    })
+
+
+    pageStart()
 
 </script>

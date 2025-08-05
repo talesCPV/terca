@@ -168,10 +168,16 @@
 </template>
 <script>
 
+    const pageData = main_data.login.data
+    const pageFunc = main_data.login.func
+    
+
 
     if(localStorage.getItem('hash') != null){
-        localStorage.clear();
-        alterLogin()
+        if(confirm('Deseja sair do sistema?')){
+            localStorage.clear();
+            alterLogin()
+        }
         document.querySelector('.overlay').style.display = 'none'
     }else{
         localStorage.clear();  

@@ -17,7 +17,7 @@ then
     git add backend/
     #git add config/
     git add scripts/
-    #git add sql/
+    git add sql/
     git add style/
     git add templates/
     #git add files/
