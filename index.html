@@ -29,6 +29,15 @@
             cursor: pointer;
         }
 
+        .hide{
+            display: none;
+        }
+
+        .section .web-title p{
+            font-size: 2em;
+            font-weight: bold;
+        }
+
         .footer-bottom-wrapper{
             justify-content: center;
         }
@@ -97,10 +106,14 @@
                                     <span class="nav-dropdown-link-line"></span>
                                     Classificação
                                   </a>
-                                  <a onclick="openHTML('new_atleta.html','pop-up','Novo Atleta',{},500)" class="nav-dropdown-link w-dropdown-link">
+                                  <a onclick="openHTML('new_atleta.html','pop-up','Novo Atleta',{},500)" class="nav-dropdown-link w-dropdown-link hide login">
                                     <span class="nav-dropdown-link-line"></span>
                                     Novo Atleta
                                   </a>
+                                  <a onclick="openHTML('new_atleta.html','pop-up','Novo Atleta',{},500)" class="nav-dropdown-link w-dropdown-link hide adm">
+                                    <span class="nav-dropdown-link-line"></span>
+                                    Editar Atleta
+                                  </a>                                  
                                 </div>
                             </nav>
                         </div>
@@ -172,7 +185,7 @@
                     <p data-w-id="3cb24c6c-4e51-f8a9-875b-510f937991a1" style="opacity:0" class="paragraph-benefits-lp">Veja quem são os guerreiros de Terça Feira</p>
                 </div>
                 <div class="landing-customers-content-right">
-                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a4-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','pop-up','Mensalistas',{'show':'mensal'})"><img src="assets/athlete.png" loading="lazy" alt="illustration" class="landing-icon-style" />
+                    <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a4-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','show-atletas','Atletas',{'show':'atletas'})"><img src="assets/athlete.png" loading="lazy" alt="illustration" class="landing-icon-style" />
                         <p class="landing-paragraph-style">Mensalistas</p>
                     </div>
                     <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a8-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','pop-up','Avulsos',{'show':'mensal'})"><img src="assets/solo.png" loading="lazy" alt="illustration" class="landing-icon-style" />
@@ -184,6 +197,13 @@
               </div>
             </div>
         </div>
+    </div>
+    <div class="section">
+        <div  id="show-atletas"  class="base-container full-width w-container">
+
+        </div>
+
+
     </div>
     <div id="racha" class="section">
         <div class="base-container full-width w-container">

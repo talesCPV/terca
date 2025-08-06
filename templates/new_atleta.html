@@ -41,6 +41,23 @@
         
 
     }
+// id,nome,posicao,sexo,mensalista
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        
+        const params = new Object;   
+            params.id = 0             
+            params.nome = pageScreen.querySelector('#edtNome').value.trim()
+            params.pos = pageScreen.querySelector('#cmbPos').value
+            params.sexo = pageScreen.querySelector('#cmbSexo').value
+            params.mensal = 0
+        const myPromisse = queryDB(params,'ATL-1');
+
+        myPromisse.then((resolve)=>{
+            alert('Atleta Cadastrado!')
+            closeModal('new_atleta')
+        })
+    })
+
 
     pageStart()
 

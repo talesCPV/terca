@@ -1,9 +1,85 @@
 <template>
-    <style></style>
+    <style>
 
-    
+        .figurinha{
+            width: 180px;
+            color: black;
+            border: solid 1px;
+        }
+
+        .figurinha img{
+            width: 150px;
+        }
+    </style>
+
+
+    <div class="frm-atletas">
+
+    </div>
+
+
+
 </template>
 <script>
+    const pageData = main_data.atletas.data
+    const pageFunc = main_data.atletas.func
+    const pageScreen = document.querySelector('#card-atletas')
 
+    function pageStart(){
+        pageFunc.viewAtletas()
+    }
+
+    pageFunc.viewAtletas = ()=>{
+
+        
+        const params = new Object;   
+            params.nome = ''
+        const myPromisse = queryDB(params,'ATL-0');
+
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            addAtleta(json)
+        })
+  
+
+    }
+
+    function addAtleta(json){
+        const frame = document.querySelector('.frm-atletas')
+
+        for(let i=0; i<json.length; i++){
+            console.log(json[i])
+            const fig = document.createElement('div')
+            frame.appendChild(fig)
+            fig.className = 'figurinha'
+
+            const img = document.createElement('img')
+            fig.appendChild(img)
+            img.id = 'atl-'+json[i].id
+
+            const back = backFunc({'filename':`../assets/atletas/${json[i].nome}.jpg`},1)
+            back.then((resp)=>{
+                const imgExist = JSON.parse(resp) 
+                img.src =  imgExist ? `assets/atletas/${json[i].nome}.jpg` : json[i].sexo=="M" ? 'assets/masc.jpg' :  'assets/fem.jpg'
+            })  
+
+            const nome = document.createElement('p')
+            frame.appendChild(nome)
+            nome.innerHTML = json[i].nome
+
+            const posicao = document.createElement('p')
+            frame.appendChild(posicao)
+            posicao.innerHTML = json[i].posicao
+
+            const sexo = document.createElement('p')
+            frame.appendChild(sexo)
+            sexo.innerHTML = json[i].sexo
+
+        }
+
+    }
+
+
+    pageStart()
 
 </script>

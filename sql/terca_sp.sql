@@ -18,10 +18,13 @@ DELIMITER $$
 		IN Ihash varchar(64)
     )
 	BEGIN        
+/*    
 		SET @access = (SELECT IFNULL(access,-1) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		SET @quer =CONCAT('SET @allow = (SELECT ',@access,' IN ',Iallow,');');
 			PREPARE stmt1 FROM @quer;
 			EXECUTE stmt1;
+*/
+		SET @allow = 1;
 	END $$
 DELIMITER ;
 
@@ -115,3 +118,49 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_view_atleta;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_atleta(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Inome varchar(50)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN            
+			SELECT * FROM tb_atleta WHERE nome COLLATE utf8_general_ci LIKE CONCAT("%",Inome,"%") ORDER BY nome;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_set_atleta;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_atleta(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+		IN Inome varchar(30),
+		IN Iposicao varchar(10),
+		IN Isexo varchar(1),
+		IN Imensalista boolean
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Inome="")THEN
+				DELETE FROM tb_atleta WHERE id=Iid;
+            ELSE
+				IF(Iid=0)THEN
+					INSERT INTO tb_atleta (id,nome,posicao,sexo,mensalista) 
+					VALUES (Iid,Inome,Iposicao,Isexo,Imensalista);
+				ELSE
+					UPDATE tb_atleta 
+                    SET nome=Inome, posicao=Iposicao, sexo=Isexo, mensalista=Imensalista
+                    WHERE id=Iid;                
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+

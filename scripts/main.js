@@ -21,19 +21,28 @@ function forceHTTPS(){
 }
 
 function alterLogin(){
-    const lg = document.querySelectorAll('.login-link')
+    let lg = document.querySelectorAll('.login-link')
     for(let i=0; i<lg.length; i++){
         lg[i].innerHTML = localStorage.getItem('hash') != null ? 'Logout' : 'Login'
     }
-    alterUser()
-}
 
-function alterUser(){
-    const lg = document.querySelectorAll('.user-link')
+    lg = document.querySelectorAll('.user-link')
     for(let i=0; i<lg.length; i++){
         lg[i].innerHTML = localStorage.getItem('nome') != null ? localStorage.getItem('nome') : 'Junte-se a Nós'
     }
+
+    lg = document.querySelectorAll('.login')
+    for(let i=0; i<lg.length; i++){
+        lg[i].style.display = localStorage.getItem('hash') != null ? 'block' : 'none'
+    }
+
+    lg = document.querySelectorAll('.adm')
+    for(let i=0; i<lg.length; i++){
+        lg[i].style.display = localStorage.getItem('access') == '0' ? 'block' : 'none'
+    }
+
 }
+
 
 
 
@@ -161,8 +170,8 @@ function showFile(idFile='up_file',idCanvas='cnvImg'){
     }
 }
 
-function loadImg(filename, id='cnvImg',efect='normal') {
-    var ctx = document.getElementById(id);     
+function loadImg(filename, ctx,efect='normal') {
+    console.log(filename,ctx)
     try{
         if (ctx.getContext) {
             ctx = ctx.getContext('2d');

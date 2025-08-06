@@ -20,5 +20,7 @@ CREATE TABLE tb_atleta (
     nome varchar(30) NOT NULL,
     posicao varchar(10) NOT NULL,
     sexo varchar(1) NOT NULL DEFAULT "M",
+    mensalista boolean NOT NULL DEFAULT 0,
+    UNIQUE KEY(nome),
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

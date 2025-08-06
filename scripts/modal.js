@@ -1,5 +1,6 @@
 
 async function openHTML(template='',where="main-screen",label="", data="",width='auto'){
+    closeMenu()
     document.querySelector('.w-nav-overlay').style = 'none' 
     width = width == 'auto' ? where =='web-window' ? '100%' : (document.querySelector('body').offsetWidth - 160)+'px' : width+'px'
 
@@ -27,7 +28,8 @@ async function openHTML(template='',where="main-screen",label="", data="",width=
                     label = 'ERRO 404!'
                 }
 
-                if(where != "main-screen"){                
+                
+                if(where != "main-screen"){
                     newModal(label,body.innerHTML,width,page_name,where)
                 }else{
                     const cont = body.innerHTML.replace('<h1>', `<span id="close-screen" onclick="document.querySelector('#imgLogo').click()">&times;</span><h1>`)                    
@@ -52,7 +54,6 @@ async function openHTML(template='',where="main-screen",label="", data="",width=
 }
 
 function newModal(title, content, width, id,type='pop-up'){
-
     const offset = 15
     const mod_main = document.querySelector('#main-screen')
     mod_main.scrollTo(0, 0)    
@@ -170,7 +171,18 @@ function newModal(title, content, width, id,type='pop-up'){
     mod_content.innerHTML = content
     mod_card.appendChild(mod_content)
 
-    mod_main.appendChild(mod_card)
+
+    if(['main-screen','pop-up','web-window'].includes(type)){
+        mod_main.appendChild(mod_card)
+    }else{
+//        mod_title.innerHTML = ''
+        span.innerHTML = ''
+        document.querySelector('#'+type).appendChild(mod_card)
+        const a = document.createElement('a')
+        a.href = '#'+type
+        a.click()
+    }
+    
     mod_main.style.display = "block"
     
     window.scrollTo(upper_page.left-82, upper_page.top);
@@ -284,9 +296,11 @@ function loading(on=0){
         mod_main.querySelector('.load-img').remove()
     }
 
+}
 
-
-
-
-
+function closeMenu(){
+    let lg = document.querySelectorAll('.w--open')
+    for(let i=0; i<lg.length; i++){
+        lg[i].classList.remove('w--open')
+    }
 }
