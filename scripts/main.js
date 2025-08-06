@@ -41,6 +41,8 @@ function alterLogin(){
         lg[i].style.display = localStorage.getItem('access') == '0' ? 'block' : 'none'
     }
 
+    document.querySelector('.promotion-label-holder').style.display = localStorage.getItem('hash') != null ? 'none' : 'block'
+
 }
 
 

@@ -1,15 +1,61 @@
 <template>
     <style>
 
+        .frm-atletas{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
         .figurinha{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
             width: 180px;
+            height: 240px;
             color: black;
             border: solid 1px;
         }
 
+        .figurinha:hover{
+            border: solid 3px #4b7b4b;
+            cursor: pointer;
+        }
+
         .figurinha img{
             width: 150px;
+            position: absolute;
+            z-index: -1;
         }
+
+        .fig-nome{
+            position: absolute;
+            bottom: 0;
+            font-size: 1.5em;
+            font-weight: 700;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 0 10px;
+            text-transform: uppercase;
+        }
+
+        .fig-pos{
+            position: absolute;
+            top: 0;
+            left: 10px;
+            text-transform: uppercase;
+        }
+
+        .fig-sexo{
+            position: absolute;
+            top: 0;
+            right: 10px;
+            text-transform: uppercase;
+        }
+
     </style>
 
 
@@ -64,16 +110,19 @@
             })  
 
             const nome = document.createElement('p')
-            frame.appendChild(nome)
+            fig.appendChild(nome)
             nome.innerHTML = json[i].nome
+            nome.className = 'fig-nome'
 
             const posicao = document.createElement('p')
-            frame.appendChild(posicao)
+            fig.appendChild(posicao)
             posicao.innerHTML = json[i].posicao
+            posicao.className = 'fig-pos'
 
             const sexo = document.createElement('p')
-            frame.appendChild(sexo)
+            fig.appendChild(sexo)
             sexo.innerHTML = json[i].sexo
+            sexo.className = 'fig-sexo'
 
         }
 

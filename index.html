@@ -38,6 +38,13 @@
             font-weight: bold;
         }
 
+        .section-atletas{
+            height: 500px !important;
+            display: flex;
+            flex-direction: row;
+            overflow: scroll;
+        }
+
         .footer-bottom-wrapper{
             justify-content: center;
         }
@@ -195,16 +202,14 @@
                       <p class="landing-paragraph-style">Classificação</p>
                   </div>
               </div>
+
             </div>
         </div>
     </div>
-    <div class="section">
-        <div  id="show-atletas"  class="base-container full-width w-container">
 
-        </div>
+    <div id="show-atletas" class="section section-atletas"></div>
 
 
-    </div>
     <div id="racha" class="section">
         <div class="base-container full-width w-container">
             <div data-w-id="de449d09-7c2e-28ae-5cc8-532958d1c766" style="opacity:0" class="section-title-wrapper">
@@ -330,7 +335,7 @@
                     <div class="promotion-label-buttons-wrapper"><a onclick="openHTML('new_user.html','pop-up','Novo Usuário',{'new_user':1})" target="_blank" class="promotion-label-button w-inline-block">
                             <div>Fazer Cadastro</div>
                         </a>
-                        <a href="#" target="_blank" class="promotion-label-button w-inline-block">
+                        <a onclick="document.querySelector('.promotion-label-holder').style.display = 'none'" target="_blank" class="promotion-label-button w-inline-block">
                             <div>Não, obrigado</div>
                         </a>
                     </div>
@@ -343,7 +348,7 @@
     <script>
 
         alterLogin()
-
+//        openHTML('atletas.html','show-atletas','Atletas',{'show':'atletas'})
 
     </script>
 
