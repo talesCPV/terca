@@ -3,6 +3,7 @@
 
         .frm-atletas{
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -52,6 +53,13 @@
         .fig-sexo{
             position: absolute;
             top: 0;
+            right: 10px;
+            text-transform: uppercase;
+        }
+
+        .fig-nota{
+            position: absolute;
+            top: 20px;
             right: 10px;
             text-transform: uppercase;
         }
@@ -122,6 +130,11 @@
             fig.appendChild(sexo)
             sexo.innerHTML = json[i].sexo
             sexo.className = 'fig-sexo'
+
+            const nota = document.createElement('p')
+            fig.appendChild(nota)
+            nota.innerHTML = json[i].nota
+            nota.className = 'fig-nota'
 
             fig.addEventListener('click',()=>{
                 if(localStorage.getItem('nome') != null){

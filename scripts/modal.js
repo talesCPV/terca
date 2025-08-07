@@ -81,9 +81,9 @@ function newModal(title, content, width, id,type='pop-up'){
     mod_card.style.zIndex = upper_page.zIndex+1
     if(type != 'full-screen'){
         mod_card.style.margin = '0 auto'
-        mod_card.style.width = width
+//        mod_card.style.width = width
         mod_card.style.top = type=='web-window' ? '50%' : upper_page.top+'px' 
-        mod_card.style.left = type=='web-window' ? 'calc(50% + 41px)' : upper_page.left+'px'
+//        mod_card.style.left = type=='web-window' ? 'calc(50% + 41px)' : upper_page.left+'px'
         mod_card.style.overflow = 'auto'
         mod_card.style.transform =  type=='web-window' ? 'translate(-50%, -50%)' : ''
     }
@@ -183,7 +183,7 @@ function newModal(title, content, width, id,type='pop-up'){
         a.click()
     }
     
-    mod_main.style.display = "block"
+    mod_main.style.display = "flex"
     
     window.scrollTo(upper_page.left-82, upper_page.top);
 }

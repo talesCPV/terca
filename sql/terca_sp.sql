@@ -129,7 +129,7 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN            
-			SELECT * FROM tb_atleta WHERE nome COLLATE utf8_general_ci LIKE CONCAT("%",Inome,"%") ORDER BY nome;
+			SELECT * FROM vw_ranking WHERE nome COLLATE utf8_general_ci LIKE CONCAT("%",Inome,"%") ORDER BY nome;
         END IF;
 	END $$
 DELIMITER ;

@@ -78,12 +78,13 @@
     const pageScreen = document.querySelector('#card-ranking')
 
     function pageStart(){
-        console.log(pageData)
         pageScreen.querySelector('#atl-img').src = pageData.foto
         pageScreen.querySelector('#atl-nome').innerHTML = pageData.nome
         pageScreen.querySelector('#atl-sexo').innerHTML = pageData.sexo=='M'?'MASCULINO':'FEMININO'
         pageScreen.querySelector('#atl-posicao').innerHTML = pageData.posicao.toUpperCase()
         pageScreen.querySelector('#atl-mensal').innerHTML = Number(pageData.mensalista) ? 'SIM' : 'NÃO'
+        pageScreen.querySelector('#edtNivel').value = pageData.nota
+        pageScreen.querySelector('#atl-nivel').innerHTML = (Math.round(Number(pageData.nota))).toString().padStart(2,0)
 
     }
 
@@ -95,13 +96,14 @@
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         const params = new Object;   
-            params.id_atleta = pageData.id            
+            params.id_atleta = pageData.id_atleta
             params.nota = pageScreen.querySelector('#edtNivel').value
 
         const myPromisse = queryDB(params,'ATL-2');
 
         myPromisse.then((resolve)=>{
             alert('Nota Computada!')
+            openHTML('atletas.html','show-atletas','Atletas',{'show':'atletas'})
             closeModal('ranking')
         })
     })
