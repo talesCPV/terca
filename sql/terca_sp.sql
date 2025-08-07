@@ -164,3 +164,25 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE IF EXISTS sp_set_ranking;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_ranking(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_atleta int(11),
+		IN Inota int
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_call = (SELECT IFNULL(id,0) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
+			IF(@id_call>0)THEN
+				INSERT INTO tb_ranking (id_usuario,id_atleta,nota) 
+				VALUES (@id_call,Iid_atleta,Inota)
+				ON DUPLICATE KEY UPDATE nota=Inota;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+

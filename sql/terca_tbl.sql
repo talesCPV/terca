@@ -24,3 +24,13 @@ CREATE TABLE tb_atleta (
     UNIQUE KEY(nome),
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS tb_ranking;
+CREATE TABLE tb_ranking (
+    id_usuario int(11) NOT NULL,
+    id_atleta int(11) NOT NULL,
+    nota int NOT NULL DEFAULT 0,
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_atleta) REFERENCES tb_atleta(id) ON DELETE CASCADE,
+    PRIMARY KEY (id_usuario,id_atleta)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

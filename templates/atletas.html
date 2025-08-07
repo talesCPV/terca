@@ -94,7 +94,6 @@
         const frame = document.querySelector('.frm-atletas')
 
         for(let i=0; i<json.length; i++){
-            console.log(json[i])
             const fig = document.createElement('div')
             frame.appendChild(fig)
             fig.className = 'figurinha'
@@ -123,6 +122,16 @@
             fig.appendChild(sexo)
             sexo.innerHTML = json[i].sexo
             sexo.className = 'fig-sexo'
+
+            fig.addEventListener('click',()=>{
+                if(localStorage.getItem('nome') != null){
+                    json[i].foto = img.src
+                    openHTML('ranking.html','pop-up',json[i].nome,json[i],800)
+                }else{
+                    alert('Você precisa estar logado para ranquear os jogadores!')
+                }
+            })
+
 
         }
 

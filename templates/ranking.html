@@ -1,0 +1,113 @@
+<template>
+    <style>
+
+        .frm-ranking{
+            display: flex;
+            gap: 20px;
+        }
+
+        .atl-pic{
+            width: 300px;
+        }
+
+        .atl-pic img{
+            width: 100%;
+        }
+
+        .line-txt{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .line-txt p:first-child{
+            font-size: 1.2em;
+            font-weight: 700;
+            text-align: start;
+            width: 110px;
+        }
+
+        input[type=range]::-moz-range-track{
+            box-shadow: 0#376131;
+            border: 2px solid #376131;
+            height: 23px;
+           
+            border-radius: 23px;
+            background: #439643;
+            cursor: pointer;
+
+        }
+
+
+    </style>
+
+
+    <div class="frm-ranking">
+
+        <div class="atl-pic">
+            <img alt="" id="atl-img">
+        </div>
+        <div class="atl-data">
+            <div class="line-txt"><p>Nome: </p><p id="atl-nome"></p></div>
+            <div class="line-txt"><p>Sexo: </p><p id="atl-sexo"></p></div>
+            <div class="line-txt"><p>Posição: </p><p id="atl-posicao"></p></div>
+            <div class="line-txt"><p>Mensalista: </p><p id="atl-mensal"></p></div>
+
+            <div class="line-txt">
+                <p>Nível:</p><p id="atl-nivel">00</p>
+                <input id="edtNivel" type="range" min="0" max="10" value="0">
+            </div>
+
+            <div class="line">
+                <button id="btnSave">Dar Nota</button>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+</template>
+<script>
+    const pageData = main_data.ranking.data
+    const pageFunc = main_data.ranking.func
+    const pageScreen = document.querySelector('#card-ranking')
+
+    function pageStart(){
+        console.log(pageData)
+        pageScreen.querySelector('#atl-img').src = pageData.foto
+        pageScreen.querySelector('#atl-nome').innerHTML = pageData.nome
+        pageScreen.querySelector('#atl-sexo').innerHTML = pageData.sexo=='M'?'MASCULINO':'FEMININO'
+        pageScreen.querySelector('#atl-posicao').innerHTML = pageData.posicao.toUpperCase()
+        pageScreen.querySelector('#atl-mensal').innerHTML = Number(pageData.mensalista) ? 'SIM' : 'NÃO'
+
+    }
+
+    pageScreen.querySelector('#edtNivel').addEventListener('input',()=>{
+        const nivel = pageScreen.querySelector('#edtNivel').value
+        pageScreen.querySelector('#atl-nivel').innerHTML = nivel.toString().padStart(2,0)
+
+    })
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        const params = new Object;   
+            params.id_atleta = pageData.id            
+            params.nota = pageScreen.querySelector('#edtNivel').value
+
+        const myPromisse = queryDB(params,'ATL-2');
+
+        myPromisse.then((resolve)=>{
+            alert('Nota Computada!')
+            closeModal('ranking')
+        })
+    })
+
+
+
+    pageStart()
+
+</script>
