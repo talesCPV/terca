@@ -9,3 +9,26 @@
         GROUP BY ATL.id;
     
 SELECT * FROM vw_ranking;
+
+	DROP VIEW IF EXISTS vw_saldo;
+ 	CREATE VIEW vw_saldo AS
+		SELECT
+    CASE
+        WHEN EXISTS (SELECT 1 FROM tb_financeiro) THEN
+            (SELECT saldo FROM tb_financeiro ORDER BY id DESC LIMIT 1)
+        ELSE
+            0
+    END AS saldo;
+    
+SELECT * FROM vw_saldo;
+
+	DROP VIEW IF EXISTS vw_extrato;
+ 	CREATE VIEW vw_extrato AS
+		SELECT FIN.id, FIN.data AS fulldate, DATE_FORMAT(FIN.data, "%d/%m/%Y") AS data, DATE_FORMAT(FIN.data, "%H:%i:%s") AS hora,USR.nome AS usuario,
+        FIN.descricao, ROUND(FIN.valor/100,2) AS valor, ROUND(FIN.saldo/100,2) AS saldo
+        FROM tb_financeiro AS FIN
+        INNER JOIN tb_usuario AS USR
+        ON FIN.id_usuario = USR.id
+        ORDER BY FIN.id;
+    
+SELECT * FROM vw_extrato;

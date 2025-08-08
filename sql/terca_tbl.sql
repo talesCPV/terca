@@ -34,3 +34,15 @@ CREATE TABLE tb_ranking (
     FOREIGN KEY (id_atleta) REFERENCES tb_atleta(id) ON DELETE CASCADE,
     PRIMARY KEY (id_usuario,id_atleta)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS tb_financeiro;
+CREATE TABLE tb_financeiro (
+	id int(11) NOT NULL AUTO_INCREMENT,
+    id_usuario int(11) NOT NULL,
+    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    descricao varchar(50) NOT NULL DEFAULT "",
+    valor int NOT NULL DEFAULT 0,
+    saldo int NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

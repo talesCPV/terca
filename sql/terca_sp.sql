@@ -185,4 +185,54 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE sp_view_extrato;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_extrato(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('SELECT * FROM vw_extrato WHERE fulldate >= "',Idt_ini,' 00:00:00" AND fulldate <="',Idt_fin,' 23:59:59" ORDER BY id;');
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+		ELSE
+			SELECT 0 AS id, "" AS nome;
+        END IF;
+	END $$
+	DELIMITER ;
 
+ DROP PROCEDURE IF EXISTS sp_set_financeiro;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_financeiro(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+		IN Idescricao varchar(50),
+		IN Ivalor int
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_call = 0;
+            SET @access = -1;
+            SELECT IFNULL(id,0), IFNULL(access,-1) INTO @id_call,@access FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1;
+			IF(@access=0)THEN
+				IF(Idescricao="")THEN
+					DELETE FROM tb_financeiro WHERE id=Iid;
+				ELSE
+					IF(Iid=0)THEN
+						SET @saldo = (SELECT saldo FROM vw_saldo);
+						INSERT INTO tb_financeiro (id,id_usuario,descricao,valor,saldo) 
+						VALUES (Iid,@id_call,Idescricao,Ivalor,@saldo+Ivalor)
+						ON DUPLICATE KEY UPDATE
+						descricao=Idescricao, valor=Ivalor;                
+					END IF;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
