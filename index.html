@@ -157,10 +157,14 @@
                                   <span class="nav-dropdown-link-line"></span>
                                   Mensalidades
                                 </a>
-                                <a href="#financeiro" class="nav-dropdown-link w-dropdown-link">
+                                <a onclick="openHTML('extrato.html','pop-up','Extrato Financeiro')" class="nav-dropdown-link w-dropdown-link">
                                   <span class="nav-dropdown-link-line"> </span>
                                   Extrato / Caixa
                                 </a>
+                                <a onclick="openHTML('lancamento.html','pop-up','Novos Lançamentos')" class="nav-dropdown-link w-dropdown-link hide adm">
+                                    <span class="nav-dropdown-link-line"> </span>
+                                    Lançamentos
+                                  </a>
                               </div>
                           </nav>
                       </div>
@@ -196,7 +200,7 @@
                         <p class="landing-paragraph-style">Atletas</p>
                     </div>
                     <div id="w-node-_3cb24c6c-4e51-f8a9-875b-510f937991a8-558f718d" class="landing-customers-icon-wrapper" onclick="openHTML('atletas.html','pop-up','Classificação',{'show':'mensal'})"><img src="assets/medal.png" loading="lazy" alt="illustration" class="landing-icon-style" />
-                      <p class="landing-paragraph-style">Classificação</p>
+                      <p class="landing-paragraph-style">Ranking</p>
                   </div>
               </div>
 
@@ -204,7 +208,7 @@
         </div>
     </div>
 
-    <div id="show-atletas" class="section section-atletas"></div>
+    <div id="show-atletas" class="section section-atletas "></div>
 
 
     <div id="racha" class="section">
@@ -309,8 +313,8 @@
                     <div class="footer-links-title"><a href="#financeiro"> Financeiro</a></div>
                     <div class="w-dyn-list">
                         <div role="list" class="w-dyn-items">
-                            <div role="listitem" class="footer-collection-item w-dyn-item"><a href="#financeiro" class="footer-link">Mensalidades</a></div>
-                            <div role="listitem" class="footer-collection-item w-dyn-item"><a href="#financeiro" class="footer-link">Extrato/Caixa</a></div>
+                            <div role="listitem" class="footer-collection-item w-dyn-item"><a onclick="openHTML('pgto.html','pop-up','Pagamento')" class="footer-link">Pagamento</a></div>
+                            <div role="listitem" class="footer-collection-item w-dyn-item"><a onclick="openHTML('extrato.html','pop-up','Lançamentos')" class="footer-link">Extrato/Caixa</a></div>
                         </div>
                     </div>
                 </div>

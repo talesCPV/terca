@@ -1,0 +1,65 @@
+<template>
+    <style></style>
+
+    <div class="frm-lancamento">
+        <div class="inline">
+            <label for="edtDesc">Descrição *</label>
+            <input type="text" id="edtDesc" onfocus="this.select();" maxlength="50">
+        </div>
+        <div class="inline">
+            <label for="edtData">Data</label>
+            <input type="date" id="edtData" onfocus="this.select();">
+        </div>
+        <div class="inline">
+            <label for="edtHora">Hora</label>
+            <input type="time" id="edtHora" onfocus="this.select();">
+        </div>        
+        <div class="inline">
+            <label for="edtVal">Valor</label>
+            <input type="text" id="edtVal" onfocus="this.select();" inputmode="decimal" onkeyup="valFloat(this)" value="0">
+        </div>
+        <div class="line">
+            <button id="btnAdd">Adicionar</button>
+        </div>
+        <table id="tblFin"></table>
+    </div>
+
+</template>
+<script>
+    const pageData = main_data.lancamento.data
+    const pageFunc = main_data.lancamento.func
+    const pageScreen = document.querySelector('#card-lancamento')
+
+    function pageStart(){
+        const now = new Date()
+        if(pageData.id != undefined){
+            pageScreen.querySelector('#edtDesc').value = pageData.descricao
+            pageScreen.querySelector('#edtData').value = pageData.fulldate.substr(0,10)
+            pageScreen.querySelector('#edtHora').value = pageData.hora
+            pageScreen.querySelector('#edtVal').value = pageData.valor
+        }else{
+            pageScreen.querySelector('#edtData').value = now.getFormatDate()
+            pageScreen.querySelector('#edtHora').value = now.getFullTime()+':00'
+        }
+    }
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        if(checkField(['edtDesc','edtData','edtHora','edtVal'])){
+            const params = new Object                
+                params.id = pageData.id == undefined ? 0 : pageData.id
+                params.descricao = pageScreen.querySelector('#edtDesc').value.trim()
+                params.valor = Number(pageScreen.querySelector('#edtVal').value)*100
+                params.data_hota = `${pageScreen.querySelector('#edtData').value} ${pageScreen.querySelector('#edtHora').value}`
+            const myPromisse = queryDB(params,'FIN-1')
+
+            myPromisse.then((resolve)=>{
+                alert('Lancamento Efetuado, consulte extrato do dia.')
+                closeModal('lancamento')
+            })
+        }
+    })
+
+
+    pageStart()
+
+</script>

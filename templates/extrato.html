@@ -1,0 +1,59 @@
+<template>
+    <style></style>
+
+    <div class="frm-fin">
+        <div class="inline">
+            <input type="date" id="edtDtIni">
+            <input type="date" id="edtDtFin">
+            <button id="btnSearch">Consultar</button>
+        </div>
+        <table id="tblFin"></table>
+    </div>
+
+
+</template>
+<script>
+    const pageData = main_data.extrato.data
+    const pageFunc = main_data.extrato.func
+    const pageScreen = document.querySelector('#card-extrato')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtDtIni').value = today.iniMonth()
+        pageScreen.querySelector('#edtDtFin').value = today.finMonth()
+        pageFunc.fillExtrato()
+    }
+
+    pageFunc.fillExtrato = ()=>{
+        const params = new Object
+            params.data_ini = pageScreen.querySelector('#edtDtIni').value
+            params.data_fin = pageScreen.querySelector('#edtDtFin').value
+        const myPromisse = queryDB(params,'FIN-0')
+
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblFin')
+            tbl.head('Data,Hora,Descrição,Valor,Saldo')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'fulldate,hora,descricao,valor,saldo','dat,Upp,Upp,R$.,R$.')
+            }
+        })
+    }
+
+    pageScreen.querySelector('#btnSearch').addEventListener('click',()=>{
+        pageFunc.fillExtrato()
+    })
+
+    pageScreen.querySelector('#tblFin').addEventListener('dblclick',(e)=>{
+        if(localStorage.getItem('access')=='0'){
+            const data = e.target.parentNode.data
+            openHTML('lancamento.html','pop-up','Edição de Dados Financeiros',data)
+
+        }
+
+    })
+
+    pageStart()
+
+</script>
+
+

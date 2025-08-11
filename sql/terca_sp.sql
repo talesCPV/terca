@@ -212,7 +212,8 @@ DELIMITER $$
 		IN Ihash varchar(64),
 		IN Iid int(11),
 		IN Idescricao varchar(50),
-		IN Ivalor int
+		IN Ivalor int,
+        IN Idata datetime
     )
 	BEGIN    
 		CALL sp_allow(Iallow,Ihash);
@@ -224,13 +225,11 @@ DELIMITER $$
 				IF(Idescricao="")THEN
 					DELETE FROM tb_financeiro WHERE id=Iid;
 				ELSE
-					IF(Iid=0)THEN
-						SET @saldo = (SELECT saldo FROM vw_saldo);
-						INSERT INTO tb_financeiro (id,id_usuario,descricao,valor,saldo) 
-						VALUES (Iid,@id_call,Idescricao,Ivalor,@saldo+Ivalor)
-						ON DUPLICATE KEY UPDATE
-						descricao=Idescricao, valor=Ivalor;                
-					END IF;
+					SET @saldo = (SELECT saldo FROM vw_saldo);
+					INSERT INTO tb_financeiro (id,id_usuario,descricao,valor,saldo,data) 
+					VALUES (Iid,@id_call,Idescricao,Ivalor,@saldo+Ivalor,Idata)
+					ON DUPLICATE KEY UPDATE
+					descricao=Idescricao, valor=Ivalor, data=Idata;                
                 END IF;
             END IF;
         END IF;
