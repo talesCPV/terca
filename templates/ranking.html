@@ -60,6 +60,7 @@
 
             <div class="line">
                 <button id="btnSave">Dar Nota</button>
+                <button id="btnEdit" class="hide">Editar</button>
             </div>
 
         </div>
@@ -82,9 +83,10 @@
         pageScreen.querySelector('#atl-nome').innerHTML = pageData.nome
         pageScreen.querySelector('#atl-sexo').innerHTML = pageData.sexo=='M'?'MASCULINO':'FEMININO'
         pageScreen.querySelector('#atl-posicao').innerHTML = pageData.posicao.toUpperCase()
-        pageScreen.querySelector('#atl-mensal').innerHTML = Number(pageData.mensalista) ? 'SIM' : 'NÃO'
+        pageScreen.querySelector('#atl-mensal').innerHTML = pageData.mensalista
         pageScreen.querySelector('#edtNivel').value = pageData.nota
         pageScreen.querySelector('#atl-nivel').innerHTML = (Math.round(Number(pageData.nota))).toString().padStart(2,0)
+        pageScreen.querySelector('#btnEdit').style.display = localStorage.getItem('access')=='0' ? 'block' : 'hide'
 
     }
 
@@ -108,7 +110,11 @@
         })
     })
 
-
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        console.log(pageData)
+        openHTML('new_atleta.html','pop-up',pageData.nome,pageData)
+        closeModal('ranking')
+    })
 
     pageStart()
 

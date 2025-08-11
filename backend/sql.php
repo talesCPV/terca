@@ -17,6 +17,10 @@
         "FIN-0" => 'CALL sp_view_extrato(@access,@hash,"x00","x01");', // DATA_INI, DATA_FIN
         "FIN-1" => 'CALL sp_set_financeiro(@access,@hash,"x00","x01","x02","x03");', // ID, DESCRIÇÃO, VALOR, DATA_HORA
 
+        /* RACHA */
+        "RCH-0" => 'CALL sp_view_racha(@access,@hash,x00);', // OPEN
+        "RCH-1" => 'CALL sp_set_racha(@access,@hash,x00,"x01","x02");', // ID, DATA_HORA, OBS
+
     );
 
 ?>

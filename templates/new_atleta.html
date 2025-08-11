@@ -9,12 +9,12 @@
     <div class="inline">
         <label for="cmbPos">Posição</label>
         <select id="cmbPos">
-            <option value="Ponteiro">Ponteiro</option>
-            <option value="Oposto">Oposto</option>
-            <option value="Levantador">Levantador</option>
-            <option value="Libero">Líbero</option>
-            <option value="Central">Central</option>
-            <option value="atacante" selected>Atacante Geral</option>
+            <option value="PONTEIRO">Ponteiro</option>
+            <option value="OPOSTO">Oposto</option>
+            <option value="LEVANTADOR">Levantador</option>
+            <option value="LIBERO">Líbero</option>
+            <option value="CENTRAL">Central</option>
+            <option value="ATACANTE" selected>Atacante Geral</option>
         </select>
     </div>
 
@@ -36,16 +36,21 @@
     const pageData = main_data.new_atleta.data
     const pageFunc = main_data.new_atleta.func
     const pageScreen = document.querySelector('#card-new_atleta')
+    const newAtleta = pageData.id_atleta == undefined
 
     function pageStart(){
-        
+        if(!newAtleta){
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#cmbPos').value = pageData.posicao
+            pageScreen.querySelector('#cmbSexo').value = pageData.sexo
+        }
 
     }
-// id,nome,posicao,sexo,mensalista
+
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         
         const params = new Object;   
-            params.id = 0             
+            params.id = newAtleta ? 0 : pageData.id_atleta
             params.nome = pageScreen.querySelector('#edtNome').value.trim()
             params.pos = pageScreen.querySelector('#cmbPos').value
             params.sexo = pageScreen.querySelector('#cmbSexo').value

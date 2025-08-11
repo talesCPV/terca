@@ -1,0 +1,58 @@
+<template>
+    <style></style>
+
+    <div class="frm-racha">
+        <div class="inline">
+            <label for="edtData">Data</label>
+            <input type="date" id="edtData">
+        </div>
+        <div class="inline">
+            <label for="edtObs">Obs:</label>
+            <textarea id="edtObs"></textarea>
+        </div>
+        <div class="line">
+            <button id="btnDel" class="hide">Deletar</button>
+            <button id="btnSave">Salvar</button>
+        </div>
+    </div>
+
+
+
+</template>
+<script>
+    const pageData = main_data.new_racha.data
+    const pageFunc = main_data.new_racha.func
+    const pageScreen = document.querySelector('#card-new_racha')
+    const newRacha = pageData.id == undefined
+
+    function pageStart(){
+        if(!newRacha){
+            pageScreen.querySelector('#edtData').value = pageData.data
+            pageScreen.querySelector('#edtObs').value = pageData.obs
+            pageScreen.querySelector('#btnDel').style.display = 'block'
+        }else{
+            pageScreen.querySelector('#edtData').value = today.getFormatDate()
+        }
+    }
+
+    pageFunc.addRacha = ()=>{
+        const params = new Object;   
+            params.id = newRacha ? 0 : pageData.id
+            params.data = pageScreen.querySelector('#edtData').value
+            params.obs = pageScreen.querySelector('#edtObs').value.trim()+'.'
+
+        const myPromisse = queryDB(params,'RCH-1');
+
+        myPromisse.then((resolve)=>{
+            alert('Racha Adicionado!')
+            closeModal('new_racha')
+        })
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        pageFunc.addRacha()
+    })
+
+    pageStart()
+
+</script>

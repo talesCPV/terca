@@ -46,3 +46,25 @@ CREATE TABLE tb_financeiro (
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS tb_racha;
+CREATE TABLE tb_racha (
+	id int(11) NOT NULL AUTO_INCREMENT,
+    id_usuario int(11) NOT NULL,
+    dia date,
+    obs varchar(255) NOT NULL DEFAULT "",
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
+    UNIQUE KEY (dia),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS tb_presenca;
+CREATE TABLE tb_presenca (
+    id_usuario int(11) NOT NULL,
+    id_racha int(11) NOT NULL,
+    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    nota int NOT NULL DEFAULT 0,
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_racha) REFERENCES tb_racha(id) ON DELETE CASCADE,
+    PRIMARY KEY (id_usuario,id_racha)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

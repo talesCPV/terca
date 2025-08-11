@@ -32,3 +32,14 @@ SELECT * FROM vw_saldo;
         ORDER BY FIN.id;
     
 SELECT * FROM vw_extrato;
+
+	DROP VIEW IF EXISTS vw_notas;
+ 	CREATE VIEW vw_notas AS
+		SELECT   USR.nome AS usuario, UPPER(ATL.nome) AS atleta, RNK.nota   
+        FROM tb_atleta AS ATL
+        INNER JOIN tb_usuario AS USR
+        INNER JOIN tb_ranking AS RNK        
+        ON RNK.id_atleta = ATL.id
+        AND RNK.id_usuario = USR.id;
+    
+    SELECT * FROM vw_notas;

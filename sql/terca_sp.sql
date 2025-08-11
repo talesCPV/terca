@@ -235,3 +235,54 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+ DROP PROCEDURE sp_view_racha;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_racha(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iopen boolean
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iopen)THEN
+				SELECT * FROM tb_racha WHERE dia >= CURDATE() ORDER BY dia;
+            ELSE
+				SELECT * FROM tb_racha ORDER BY dia;
+            END IF;
+        END IF;
+	END $$
+	DELIMITER ;
+
+
+ DROP PROCEDURE IF EXISTS sp_set_racha;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_racha(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+        IN Idia date,
+		IN Iobs varchar(255)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_call = 0;
+            SET @access = -1;
+            SELECT IFNULL(id,0), IFNULL(access,-1) INTO @id_call,@access FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1;
+			IF(@access=0)THEN
+				IF(Iobs="")THEN
+					DELETE FROM tb_racha WHERE id=Iid;
+				ELSE
+					IF(Iid=0)THEN
+						INSERT INTO tb_racha (id_usuario,dia,obs) 
+						VALUES (@id_call,Idia,Iobs);
+                    ELSE 
+						UPDATE tb_racha SET dia=Idia, obs=Iobs WHERE id=Iid;
+                    END IF;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
