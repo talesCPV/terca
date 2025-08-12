@@ -7,10 +7,15 @@ CREATE TABLE tb_usuario (
     token varchar(64) DEFAULT NULL,
     access int(11) DEFAULT -1,
     cadastro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_atleta int(11) DEFAULT NULL,
 	UNIQUE KEY (hash),
 	UNIQUE KEY (email),
+    FOREIGN KEY (id_atleta) REFERENCES tb_atleta(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE tb_usuario ADD FOREIGN KEY (id_atleta) REFERENCES tb_atleta(id) ON DELETE CASCADE ;
+
 
 	INSERT INTO tb_usuario (email,hash,access,nome)VALUES("tales@planet3.com.br","b494f6a8b457c58f8feaac439d771a15045337826d72be5b14bb2f224dc7eb39",0,"Developer");
     
@@ -60,11 +65,12 @@ CREATE TABLE tb_racha (
 
 DROP TABLE IF EXISTS tb_presenca;
 CREATE TABLE tb_presenca (
-    id_usuario int(11) NOT NULL,
+	id_usuario int(11) NOT NULL,
+    id_atleta int(11) NOT NULL,
     id_racha int(11) NOT NULL,
     data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    nota int NOT NULL DEFAULT 0,
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_atleta) REFERENCES tb_atleta(id) ON DELETE CASCADE,
     FOREIGN KEY (id_racha) REFERENCES tb_racha(id) ON DELETE CASCADE,
-    PRIMARY KEY (id_usuario,id_racha)
+    PRIMARY KEY (id_atleta,id_racha)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

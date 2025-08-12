@@ -286,3 +286,48 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+
+ DROP PROCEDURE sp_view_presenca;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_presenca(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid_racha boolean
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM vw_presenca WHERE id_racha=Iid_racha;
+        END IF;
+	END $$
+	DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_set_presenca;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_presenca(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid_atleta int(11),
+		IN Iid_racha int(11)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_call = 0;
+            SET @access = -1;
+            SET @id_atleta = 0;
+            SELECT IFNULL(id,0), IFNULL(access,-1), IFNULL(id_atleta,0) INTO @id_call,@access,@id_atleta FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1;
+			IF(@id_call>0)THEN
+				IF(@access=0 OR @id_atleta=Iid_atleta)THEN
+					SET @has = (SELECT COUNT(*) FROM tb_presenca WHERE id_racha=Iid_racha AND id_atleta=Iid_atleta);
+                    IF(@has)THEN
+						DELETE FROM tb_presenca WHERE id_racha=Iid_racha AND id_atleta=Iid_atleta;
+                    ELSE
+						INSERT INTO tb_presenca (id_usuario,id_atleta,id_racha) VALUES(@id_call,Iid_atleta,Iid_racha);
+                    END IF;
+				END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;

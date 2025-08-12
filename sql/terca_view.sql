@@ -43,3 +43,17 @@ SELECT * FROM vw_extrato;
         AND RNK.id_usuario = USR.id;
     
     SELECT * FROM vw_notas;
+    
+    
+	DROP VIEW IF EXISTS vw_presenca;
+ 	CREATE VIEW vw_presenca AS    
+		SELECT ATL.*, RCH.id AS id_racha, RCH.dia, 
+        CASE WHEN PRE.id_atleta IS NOT NULL THEN "SIM" ELSE "NÃO" END AS  vai
+        FROM tb_atleta AS ATL
+        INNER JOIN tb_racha AS RCH
+        LEFT JOIN tb_presenca AS PRE
+        ON PRE.id_atleta = ATL.id
+        AND PRE.id_racha = RCH.id
+        ORDER BY id_racha, mensalista DESC,nome;
+
+SELECT * FROM vw_presenca;

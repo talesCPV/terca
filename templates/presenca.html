@@ -2,7 +2,6 @@
     <style></style>
 
     <div class="inline">
-        <label for="cmbData">Dia</label>
         <select id="cmbData"></select>
     </div>
 
@@ -12,9 +11,7 @@
     </fieldset>
     <fieldset>
         <legend>Lista de Avulsos</legend>
-
-
-
+        <table id="tblAvulso"></table>
     </fieldset>
 
 
@@ -39,16 +36,65 @@
             sel.innerHTML = ''
             for(let i=0; i<json.length; i++){
                 const opt = document.createElement('option')
-                opt.value = json[i].dia
+                opt.value = json[i].id
                 opt.innerHTML = json[i].dia.viewDate()
                 opt.data = json[i]
                 sel.appendChild(opt)
             }
+            sel.selectedIndex = json.length-1
+            pageFunc.viewPresenca()
         })
     }
 
+    pageFunc.viewPresenca = ()=>{
+        const params = new Object;   
+            params.id_racha = pageScreen.querySelector('#cmbData').value
+        const MyPromisse = queryDB(params,'RCH-2')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl_mensal =  pageScreen.querySelector('#tblMensal')
+            tbl_mensal.head('Nome,Posição,Vai')
+            const tbl_avulso =  pageScreen.querySelector('#tblAvulso')
+            tbl_avulso.head('Nome,Posição,Vai')
+
+            for(let i=0; i<json.length; i++){
+                if(Number(json[i].mensalista)){
+                    tbl_mensal.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp')
+                }else{
+                    tbl_avulso.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp')
+                }
+            }
+        })
+    }
+
+    pageFunc.setPresenca = (id_atleta)=>{
+        if(localStorage.getItem('access')=='0' || localStorage.getItem('id_atleta')==id_atleta){
+            const params = new Object;   
+                params.id_atleta = id_atleta
+                params.id_racha = pageScreen.querySelector('#cmbData').value
+            const MyPromisse = queryDB(params,'RCH-3')
+            MyPromisse.then((resolve)=>{
+                pageFunc.viewPresenca()
+            })
+        }else{
+            alert('Você não tem permissão para acessar o atleta '+data.nome)
+        }
+    }
 
 
+    pageScreen.querySelector('#cmbData').addEventListener('change',()=>{
+        pageFunc.viewPresenca()
+    })
+
+    pageScreen.querySelector('#tblMensal').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data
+        pageFunc.setPresenca(data.id)        
+    })
+
+    pageScreen.querySelector('#tblAvulso').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data
+        pageFunc.setPresenca(data.id)        
+    })
 
 
     pageStart()
