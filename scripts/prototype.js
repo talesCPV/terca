@@ -117,14 +117,12 @@ Date.prototype.getCod = function(){
 }
 
 /* TABLE */
-HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=false , green=false){
-
+HTMLTableElement.prototype.plot = function(obj, fields,type='',classname=''){
     fields = fields.split(',')
     type = type=='' ? '' : type.split(',')
     const tr = document.createElement('tr')
-    if(file && obj.path != null){
-        tr.classList = 'path'
-    }
+    tr.className = classname
+
     for(let i=0; i<fields.length; i++){
         const td = document.createElement('td')
         const arr = fields[i].split('|')
@@ -162,10 +160,8 @@ HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=
                 case 'R$.': // Formato Monetário R$0,00
                     if(parseFloat(obj[arr[0]]).toFixed(2) >=0 ){
                         html = obj[arr[0]] != null ? viewMoneyBR(parseFloat(obj[arr[0]]).toFixed(2)) : ''
-                        green = true
                     }else{
                         html = obj[arr[0]] != null ? `(${viewMoneyBR(parseFloat(obj[arr[0]]).toFixed(2))})` : ''
-                        green = false
                     }
                     break
                 case '%..':
@@ -222,9 +218,6 @@ HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=
         tr.appendChild(td)
     }
     tr.data = obj
-    if(mark){
-        tr.classList.add(green ? 'green' : 'red')
-    }
     this.appendChild(tr)
 }
 

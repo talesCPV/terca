@@ -1,5 +1,9 @@
 <template>
-    <style></style>
+    <style>
+        .vai{
+            background-color: greenyellow !important;
+        }
+    </style>
 
     <div class="inline">
         <select id="cmbData"></select>
@@ -56,31 +60,48 @@
             tbl_mensal.head('Nome,Posição,Vai')
             const tbl_avulso =  pageScreen.querySelector('#tblAvulso')
             tbl_avulso.head('Nome,Posição,Vai')
-
+            let vagas = 0
             for(let i=0; i<json.length; i++){
+                vagas += json[i].vai=='SIM' ? 1 : 0
                 if(Number(json[i].mensalista)){
-                    tbl_mensal.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp')
+                    tbl_mensal.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp',json[i].vai=='SIM' ? 'vai' : 'nao_vai')
                 }else{
-                    tbl_avulso.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp')
+                    tbl_avulso.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp',(json[i].vai=='SIM' && vagas <=18) ? 'vai' : 'nao_vai')
                 }
             }
         })
     }
 
-    pageFunc.setPresenca = (id_atleta)=>{
-        if(localStorage.getItem('access')=='0' || localStorage.getItem('id_atleta')==id_atleta){
-            const params = new Object;   
-                params.id_atleta = id_atleta
-                params.id_racha = pageScreen.querySelector('#cmbData').value
-            const MyPromisse = queryDB(params,'RCH-3')
-            MyPromisse.then((resolve)=>{
-                pageFunc.viewPresenca()
-            })
+    pageFunc.setPresenca = (data)=>{
+        if(localStorage.getItem('id_atleta')=='null'){
+            if(confirm(`O usuário ${localStorage.getItem('nome')} é o atleta ${data.nome} são a mesma pessoa?`)){
+                pageFunc.setUsrAtl(data)
+            }
         }else{
-            alert('Você não tem permissão para acessar o atleta '+data.nome)
+            if(localStorage.getItem('access')=='0' || localStorage.getItem('id_atleta')==data.id){
+                const params = new Object;   
+                    params.id_atleta = data.id
+                    params.id_racha = pageScreen.querySelector('#cmbData').value
+                const MyPromisse = queryDB(params,'RCH-3')
+                MyPromisse.then((resolve)=>{
+                    pageFunc.viewPresenca()
+                })
+            }else{
+                alert('Você não tem permissão para acessar o atleta '+data.nome)
+            }
         }
     }
 
+    pageFunc.setUsrAtl = (data)=>{
+        const params = new Object;   
+            params.id_atleta = data.id
+        const MyPromisse = queryDB(params,'ATL-3')
+        MyPromisse.then((resolve)=>{
+            localStorage.setItem("id_atleta",data.id)
+            alert('Atleta vinculado ao usuário, agora você tem acesso a confirmações em nome deste atleta!')
+            pageFunc.setPresenca(data)
+        })
+    }
 
     pageScreen.querySelector('#cmbData').addEventListener('change',()=>{
         pageFunc.viewPresenca()
@@ -88,12 +109,12 @@
 
     pageScreen.querySelector('#tblMensal').addEventListener('click',(e)=>{
         const data = e.target.parentNode.data
-        pageFunc.setPresenca(data.id)        
+        pageFunc.setPresenca(data)        
     })
 
     pageScreen.querySelector('#tblAvulso').addEventListener('click',(e)=>{
         const data = e.target.parentNode.data
-        pageFunc.setPresenca(data.id)        
+        pageFunc.setPresenca(data)        
     })
 
 

@@ -26,6 +26,11 @@
         </select>
     </div>
 
+    <div class="line-ckb hide ckb-mensal">
+        <label for="ckbMensal">Mensalista</label>
+        <input type="checkbox" id="ckbMensal">
+    </div>
+
     <div class="line">
         <button id="btnSave">Salvar</button>
     </div>
@@ -43,6 +48,11 @@
             pageScreen.querySelector('#edtNome').value = pageData.nome
             pageScreen.querySelector('#cmbPos').value = pageData.posicao
             pageScreen.querySelector('#cmbSexo').value = pageData.sexo
+            pageScreen.querySelector('#ckbMensal').checked = pageData.mensalista=='SIM'
+        }
+
+        if(localStorage.getItem('access')=='0'){
+            pageScreen.querySelector('.ckb-mensal').style.display == 'flex'
         }
 
     }
@@ -54,7 +64,7 @@
             params.nome = pageScreen.querySelector('#edtNome').value.trim()
             params.pos = pageScreen.querySelector('#cmbPos').value
             params.sexo = pageScreen.querySelector('#cmbSexo').value
-            params.mensal = 0
+            params.mensal = pageScreen.querySelector('#ckbMensal').checked ? 1 : 0
         const myPromisse = queryDB(params,'ATL-1');
 
         myPromisse.then((resolve)=>{

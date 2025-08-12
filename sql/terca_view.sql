@@ -47,13 +47,18 @@ SELECT * FROM vw_extrato;
     
 	DROP VIEW IF EXISTS vw_presenca;
  	CREATE VIEW vw_presenca AS    
-		SELECT ATL.*, RCH.id AS id_racha, RCH.dia, 
-        CASE WHEN PRE.id_atleta IS NOT NULL THEN "SIM" ELSE "NÃO" END AS  vai
+		SELECT RCH.id AS id_racha, RCH.dia,  ATL.*, 
+        CASE WHEN PRE.id_atleta IS NOT NULL THEN "SIM" ELSE "NÃO" END AS  vai,
+        IFNULL(PRE.data,"") AS data
         FROM tb_atleta AS ATL
         INNER JOIN tb_racha AS RCH
         LEFT JOIN tb_presenca AS PRE
         ON PRE.id_atleta = ATL.id
         AND PRE.id_racha = RCH.id
-        ORDER BY id_racha, mensalista DESC,nome;
+        ORDER BY id_racha, mensalista DESC,
+        CASE 
+			WHEN mensalista=1 THEN nome
+			WHEN mensalista=0 THEN IFNULL(PRE.data,999999999999999)
+		END;
 
 SELECT * FROM vw_presenca;

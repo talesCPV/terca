@@ -164,6 +164,21 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE IF EXISTS sp_set_atl_usr;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_atl_usr(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_atleta int(11)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+            UPDATE tb_usuario SET id_atleta=Iid_atleta WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci;
+        END IF;
+	END $$
+DELIMITER ;
+
  DROP PROCEDURE IF EXISTS sp_set_ranking;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_ranking(	
@@ -273,6 +288,7 @@ DELIMITER $$
             SELECT IFNULL(id,0), IFNULL(access,-1) INTO @id_call,@access FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1;
 			IF(@access=0)THEN
 				IF(Iobs="")THEN
+					DELETE FROM tb_presenca WHERE id_racha=Iid;
 					DELETE FROM tb_racha WHERE id=Iid;
 				ELSE
 					IF(Iid=0)THEN

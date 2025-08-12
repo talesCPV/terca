@@ -12,6 +12,8 @@
         "ATL-0" => 'CALL sp_view_atleta(@access,@hash,"x00");', // NOME
         "ATL-1" => 'CALL sp_set_atleta(@access,@hash,x00,"x01","x02","x03",x04);', // id,nome,posicao,sexo,mensalista
         "ATL-2" => 'CALL sp_set_ranking(@access,@hash,x00,x01);', // ID_ATLETA, NOTA
+        "ATL-3" => 'CALL sp_set_atl_usr(@access,@hash,x00);', // ID_ATLETA
+        
   
         /* FINANCEIRO */
         "FIN-0" => 'CALL sp_view_extrato(@access,@hash,"x00","x01");', // DATA_INI, DATA_FIN
