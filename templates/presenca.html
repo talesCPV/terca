@@ -18,6 +18,10 @@
         <table id="tblAvulso"></table>
     </fieldset>
 
+    <div class="line">
+        <button class="hide btn-adm" id="btnSort">Sortear Times</button>
+    </div>
+
 
 
 </template>
@@ -28,6 +32,10 @@
 
     function pageStart(){
         pageFunc.viewRacha()
+
+        if(localStorage.getItem('access')=='0'){
+            pageScreen.querySelector('.btn-adm').style.display = 'block'
+        }
     }
 
     pageFunc.viewRacha = ()=>{
@@ -56,17 +64,22 @@
         const MyPromisse = queryDB(params,'RCH-2')
         MyPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
+            pageData.atletas = []
             const tbl_mensal =  pageScreen.querySelector('#tblMensal')
             tbl_mensal.head('Nome,Posição,Vai')
             const tbl_avulso =  pageScreen.querySelector('#tblAvulso')
             tbl_avulso.head('Nome,Posição,Vai')
-            let vagas = 0
             for(let i=0; i<json.length; i++){
-                vagas += json[i].vai=='SIM' ? 1 : 0
-                if(Number(json[i].mensalista)){
-                    tbl_mensal.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp',json[i].vai=='SIM' ? 'vai' : 'nao_vai')
+                const vai = json[i].vai=='SIM' && pageData.atletas.length <18
+                if(vai){
+                    json[i].nota = Number(json[i].nota)
+                    pageData.atletas.push(json[i])
+                }
+
+                if(json[i].mensalista=='SIM'){
+                    tbl_mensal.plot(json[i],'nome,posicao,vai','Upp,Upp,Upp',json[i].vai=='SIM' ? 'vai' : 'nao_vai')
                 }else{
-                    tbl_avulso.plot(json[i],'nome,posicao,vai','Ipp,Upp,Upp',(json[i].vai=='SIM' && vagas <=18) ? 'vai' : 'nao_vai')
+                    tbl_avulso.plot(json[i],'nome,posicao,vai','Upp,Upp,Upp',vai ? 'vai' : 'nao_vai')
                 }
             }
         })
@@ -78,9 +91,9 @@
                 pageFunc.setUsrAtl(data)
             }
         }else{
-            if(localStorage.getItem('access')=='0' || localStorage.getItem('id_atleta')==data.id){
+            if(localStorage.getItem('access')=='0' || localStorage.getItem('id_atleta')==data.id_atleta){
                 const params = new Object;   
-                    params.id_atleta = data.id
+                    params.id_atleta = data.id_atleta
                     params.id_racha = pageScreen.querySelector('#cmbData').value
                 const MyPromisse = queryDB(params,'RCH-3')
                 MyPromisse.then((resolve)=>{
@@ -116,6 +129,47 @@
         const data = e.target.parentNode.data
         pageFunc.setPresenca(data)        
     })
+
+    pageScreen.querySelector('#btnSort').addEventListener('click',()=>{
+        if(pageData.vagas < 18){
+            if(confirm('O número de atletas confirmador é menor do que 18, deseja continuar mesmo assim?')){
+                sorteio()
+            }
+        }else{
+            sorteio()
+        }
+    })
+
+    function sorteio(){
+        const atletas = pageData.atletas
+        atletas.sort((a, b) => a.nota - b.nota);
+        const levantador = []
+
+        for(let i=0; i<atletas.length; i++){
+            if(atletas[i].posicao ==  'LEVANTADOR'){
+                levantador.push(atletas[i])
+                atletas.splice(i,1)
+            }           
+        }
+
+        while(levantador.length > 3){
+            atletas.push(levantador[0])
+            levantador.splice(0,1)
+        }
+        atletas.sort((a, b) => a.nota - b.nota);
+
+
+        const A = []
+        const B = []
+        const C = []
+        
+        
+
+
+
+        console.log(levantador)
+        console.log(atletas)
+    }
 
 
     pageStart()
