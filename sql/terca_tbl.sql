@@ -68,9 +68,12 @@ CREATE TABLE tb_presenca (
 	id_usuario int(11) NOT NULL,
     id_atleta int(11) NOT NULL,
     id_racha int(11) NOT NULL,
+    time varchar(1) DEFAULT "",
     data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
     FOREIGN KEY (id_atleta) REFERENCES tb_atleta(id) ON DELETE CASCADE,
     FOREIGN KEY (id_racha) REFERENCES tb_racha(id) ON DELETE CASCADE,
     PRIMARY KEY (id_atleta,id_racha)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ALTER TABLE tb_presenca ADD COLUMN time varchar(1) DEFAULT "";
