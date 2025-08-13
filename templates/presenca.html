@@ -141,55 +141,96 @@
     })
 
     function sorteio(){
+
+        function getMedia(index){
+            const out = new Object
+            out.nota  = 0
+            out.media = 0
+            out.qtd   = 0
+            for(let i=0; i<times[index].length; i++){
+                out.nota += times[index][i].nota
+                out.qtd++
+                out.media = out.nota/out.qtd
+            }
+            return out
+        }
+
         pageData.atletas.sort((a, b) => a.nota - b.nota);
         
         const atletas = JSON.parse(JSON.stringify(pageData.atletas)) 
-
         const levantador = []
-
-        for(let i=0; i<atletas.length; i++){
-            if(atletas[i].posicao ==  'LEVANTADOR'){
-                levantador.push(atletas[i])
-                atletas.splice(i,1)
-                i--
-            }
-        }
-
-/*
-        while(levantador.length > 3){
-            atletas.push(levantador[levantador.length-1])
-            levantador.splice(0,1)
-        }
-
-        atletas.sort((a, b) => a.nota - b.nota);
-*/
-
+        const fem  = []
         const times  = {'A':[],'B':[],'C':[],}
 
-// Sorteia a ordem dos times
+        // Sorteia a ordem dos times
 
         const L = ['A','B','C']
         const ordem = []
 
         while(L.length >0){
-            const sort = Math.floor(Math.random()*L.length)
+            const sort =  Math.floor(Math.random()*10000)%L.length
             ordem.push(L[sort])
             L.splice(sort,1)
         }
 
+// Separa Levantadores e mulheres
+        for(let i=0; i<atletas.length; i++){
+            if(atletas[i].posicao ==  'LEVANTADOR'){
+                levantador.push(atletas[i])
+                atletas.splice(i,1)
+                i--
+            }else if(atletas[i].sexo ==  'F'){
+                fem.push(atletas[i])
+                atletas.splice(i,1)
+                i--
+            }
+        }
+
 // Distribui os melhores Levantadores
-        for(let i=0; i<3;i++){
-            times[ordem[i]].push(levantador[levantador.length-1])
+        let index=0
+        while(levantador.length && index<3){
+            times[ordem[index]].push(levantador[levantador.length-1])
             levantador.splice(levantador.length-1,1)
+            index ++
         }
 
 // Realoca os levantadores sobresalentes
+        while(levantador.length){
+            atletas.push(levantador[0])
+            levantador.splice(0,1)
+        }
+        atletas.sort((a, b) => a.nota - b.nota);
 
+// Distribui as mulheres
 
+        while(fem.length){
+            index = index>2 ? 0 : index
+            times[ordem[index]].push(fem[0])
+            fem.splice(0,1)
+            index ++
+        }
 
-        console.log(times)        
-        console.log(levantador)
-        console.log(atletas)
+// sorteia os times
+
+        while(atletas.length){
+            index = index>2 ? 0 : index
+            const A = getMedia('A')
+            const B = getMedia('B')
+            const C = getMedia('C')
+            const sort =  Math.floor(Math.random()*10000)%atletas.length
+
+            times[ordem[index]].push(atletas[sort])
+            atletas.splice(sort,1)
+
+            index++
+        }
+
+        times.A =  {'atletas':times.A,'notas':getMedia('A')}
+        times.B =  {'atletas':times.B,'notas':getMedia('B')}
+        times.C =  {'atletas':times.C,'notas':getMedia('C')}
+        
+        openHTML('sorteio.html','pop-up','Sorteio dos Times',times)
+
     }
 
 
