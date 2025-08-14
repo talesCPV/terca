@@ -8,10 +8,7 @@
         }
     </style>
 
-    <div class="frm-times">
-
-    </div>
-
+    <div class="frm-times"></div>
 
 </template>
 <script>
@@ -39,9 +36,11 @@
                 tbl.plot(pageData[i][j],'nome,sexo,posicao,nota','Upp,Upp,Upp,flo')
                 media += pageData[i][j].nota
             }
+            const last_line =  document.createElement('tr')
+            last_line.innerHTML =  `<td></td><td></td><td></td><td>${media.toFixed(2)}</td>`
+            tbl.appendChild(last_line)
         }
     }
-
 
     pageStart()
 
