@@ -4,6 +4,8 @@
         .frm-ranking{
             display: flex;
             gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .atl-pic{
@@ -18,6 +20,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .line-txt p:first-child{
@@ -46,6 +49,7 @@
 
         <div class="atl-pic">
             <img alt="" id="atl-img">
+            <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="hide">
         </div>
         <div class="atl-data">
             <div class="line-txt"><p>Nome: </p><p id="atl-nome"></p></div>
@@ -54,7 +58,8 @@
             <div class="line-txt"><p>Mensalista: </p><p id="atl-mensal"></p></div>
 
             <div class="line-txt">
-                <p>Nível:</p><p id="atl-nivel">00</p>
+                <p>Nível:</p>
+                <p id="atl-nivel">00</p>
                 <input id="edtNivel" type="range" min="0" max="10" value="0">
             </div>
 
@@ -64,9 +69,6 @@
             </div>
 
         </div>
-
-
-
 
     </div>
 
@@ -87,6 +89,7 @@
         pageScreen.querySelector('#edtNivel').value = pageData.nota
         pageScreen.querySelector('#atl-nivel').innerHTML = (Math.round(Number(pageData.nota))).toString().padStart(2,0)
         pageScreen.querySelector('#btnEdit').style.display = localStorage.getItem('access')=='0' ? 'block' : 'hide'
+        pageScreen.querySelector('#up_file').style.display = (localStorage.getItem('access')=='0' || localStorage.getItem('id_atleta')==pageData.id_atleta) ? 'block' : 'hide'
 
     }
 
@@ -113,6 +116,15 @@
     pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
         openHTML('new_atleta.html','pop-up',pageData.nome,pageData)
         closeModal('ranking')
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
+        const up = uploadImage('up_file',`assets/atletas/`,`${pageData.nome}.jpg`)
+        up.then((resp)=>{
+            alert('Imagem Alterada')
+            closeModal('ranking')
+            openHTML('atletas.html','show-atletas','Atletas',{'show':'atletas'})
+        })
     })
 
     pageStart()

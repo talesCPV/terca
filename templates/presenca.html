@@ -108,10 +108,10 @@
 
     pageFunc.setUsrAtl = (data)=>{
         const params = new Object;   
-            params.id_atleta = data.id
+            params.id_atleta = data.id_atleta
         const MyPromisse = queryDB(params,'ATL-3')
         MyPromisse.then((resolve)=>{
-            localStorage.setItem("id_atleta",data.id)
+            localStorage.setItem("id_atleta",data.id_atleta)
             alert('Atleta vinculado ao usuário, agora você tem acesso a confirmações em nome deste atleta!')
             pageFunc.setPresenca(data)
         })
