@@ -155,24 +155,40 @@
             return out
         }
 
-        pageData.atletas.sort((a, b) => a.nota - b.nota);
-        
-        const atletas = JSON.parse(JSON.stringify(pageData.atletas)) 
-        const levantador = []
-        const fem  = []
-        const times  = {'A':[],'B':[],'C':[],}
-
-        // Sorteia a ordem dos times
-
-        const L = ['A','B','C']
-        const ordem = []
-
-        while(L.length >0){
-            const sort =  Math.floor(Math.random()*10000)%L.length
-            ordem.push(L[sort])
-            L.splice(sort,1)
+        function qtdTimes(atletas){
+            const out = []
+            for(let i=0; i<Math.ceil(atletas.length/6); i++){
+                out.push([])
+            }
+            return out
         }
 
+        function getAtleta(arr){
+            const index =  Math.floor(Math.random()*10000)%arr.length
+            const nota = arr[index].nota
+            let tm_index = {'nota':99999999, 'qtd':0,'media':999999,'index':0}
+            for(let i=0; i<times.length; i++){
+                const tm = getMedia(i)
+                tm.nota += nota
+                tm.index = i                 
+                if(tm.nota < tm_index.nota && tm.qtd <  5){
+                    tm_index = tm
+                }
+            }
+
+            times[tm_index.index].push(arr[index])
+            console.log(times[tm_index.index].length) 
+            arr.splice(index,1)
+        }
+
+
+
+        pageData.atletas.sort((a, b) => a.nota - b.nota);
+        const atletas = JSON.parse(JSON.stringify(pageData.atletas)) 
+        const times  = qtdTimes(atletas)
+        const levantador = []
+        const fem  = []
+        
 // Separa Levantadores e mulheres
         for(let i=0; i<atletas.length; i++){
             if(atletas[i].posicao ==  'LEVANTADOR'){
@@ -186,10 +202,12 @@
             }
         }
 
+
+
 // Distribui os melhores Levantadores
         let index=0
         while(levantador.length && index<3){
-            times[ordem[index]].push(levantador[levantador.length-1])
+            times[index].push(levantador[levantador.length-1])
             levantador.splice(levantador.length-1,1)
             index ++
         }
@@ -201,35 +219,23 @@
         }
         atletas.sort((a, b) => a.nota - b.nota);
 
+
+        while(atletas.length){
+            getAtleta(atletas)
+
+        }
+
 // Distribui as mulheres
 
         while(fem.length){
             index = index>2 ? 0 : index
-            times[ordem[index]].push(fem[0])
+            times[index].push(fem[0])
             fem.splice(0,1)
-            index ++
+            index += index==2 ? -2 : 1
         }
 
-// sorteia os times
+        openHTML('sorteio.html','pop-up','Times Sorteados',times)
 
-        while(atletas.length){
-            index = index>2 ? 0 : index
-            const A = getMedia('A')
-            const B = getMedia('B')
-            const C = getMedia('C')
-            const sort =  Math.floor(Math.random()*10000)%atletas.length
-
-            times[ordem[index]].push(atletas[sort])
-            atletas.splice(sort,1)
-
-            index++
-        }
-
-        times.A =  {'atletas':times.A,'notas':getMedia('A')}
-        times.B =  {'atletas':times.B,'notas':getMedia('B')}
-        times.C =  {'atletas':times.C,'notas':getMedia('C')}
-        
-        openHTML('sorteio.html','pop-up','Sorteio dos Times',times)
 
     }
 

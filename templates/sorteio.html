@@ -1,7 +1,16 @@
 <template>
-    <style></style>
+    <style>
+        .frm-times{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
 
-    
+    <div class="frm-times">
+
+    </div>
 
 
 </template>
@@ -10,6 +19,30 @@
     const pageFunc = main_data.sorteio.func
     const pageScreen = document.querySelector('#card-sorteio')
 
-    console.log(pageData)
+    function pageStart(){
+        showTimes()
+    }
+
+    function showTimes(){
+        const frm = pageScreen.querySelector('.frm-times')
+        for(let i=0; i<pageData.length; i++){
+            const fds = document.createElement('fieldset')
+            frm.appendChild(fds)
+            const legend = document.createElement('legend')
+            fds.appendChild(legend)
+            legend.innerHTML  = String.fromCharCode(65+i) 
+            const tbl = document.createElement('table')
+            fds.appendChild(tbl)
+            tbl.head('Nome, Sexo, Posição, Média')
+            let media = 0
+            for(let j=0; j<pageData[i].length; j++){
+                tbl.plot(pageData[i][j],'nome,sexo,posicao,nota','Upp,Upp,Upp,flo')
+                media += pageData[i][j].nota
+            }
+        }
+    }
+
+
+    pageStart()
 
 </script>
