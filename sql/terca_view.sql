@@ -25,11 +25,14 @@ SELECT * FROM vw_saldo;
 	DROP VIEW IF EXISTS vw_extrato;
  	CREATE VIEW vw_extrato AS
 		SELECT FIN.id, FIN.data AS fulldate, DATE_FORMAT(FIN.data, "%d/%m/%Y") AS data, DATE_FORMAT(FIN.data, "%H:%i:%s") AS hora,USR.nome AS usuario,
-        FIN.descricao, ROUND(FIN.valor/100,2) AS valor, ROUND(FIN.saldo/100,2) AS saldo
+        FIN.descricao, ROUND(FIN.valor/100,2) AS valor,
+        (SELECT  ROUND(SUM(valor)/100,2)FROM tb_financeiro WHERE id<=FIN.id) AS saldo
         FROM tb_financeiro AS FIN
         INNER JOIN tb_usuario AS USR
         ON FIN.id_usuario = USR.id
         ORDER BY FIN.id;
+    
+    SELECT FIN.id,FIN.id_usuario,FIN.descricao, FIN.data, FIN.valor,(SELECT SUM(valor) WHERE id<= FIN.id) AS saldo FROM tb_financeiro AS FIN;
     
 SELECT * FROM vw_extrato;
 

@@ -240,9 +240,8 @@ DELIMITER $$
 				IF(Idescricao="")THEN
 					DELETE FROM tb_financeiro WHERE id=Iid;
 				ELSE
-					SET @saldo = (SELECT saldo FROM vw_saldo);
-					INSERT INTO tb_financeiro (id,id_usuario,descricao,valor,saldo,data) 
-					VALUES (Iid,@id_call,Idescricao,Ivalor,@saldo+Ivalor,Idata)
+					INSERT INTO tb_financeiro (id,id_usuario,descricao,valor,data) 
+					VALUES (Iid,@id_call,Idescricao,Ivalor,Idata)
 					ON DUPLICATE KEY UPDATE
 					descricao=Idescricao, valor=Ivalor, data=Idata;                
                 END IF;

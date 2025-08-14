@@ -47,7 +47,6 @@ CREATE TABLE tb_financeiro (
     data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     descricao varchar(50) NOT NULL DEFAULT "",
     valor int NOT NULL DEFAULT 0,
-    saldo int NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
