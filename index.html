@@ -18,7 +18,9 @@
     <script src="scripts/validation.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/prototype.js"></script>
-
+    
+    <!-- QR-CODE -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VG9W6BRS4E"></script>
 
@@ -103,11 +105,7 @@
                                 <div class="nav-dropdown-link-wrapper">
                                   <a href="#atletas" class="nav-dropdown-link w-dropdown-link">
                                     <span class="nav-dropdown-link-line"></span>
-                                    Mensalistas
-                                  </a>
-                                  <a href="#atletas" class="nav-dropdown-link w-dropdown-link">
-                                    <span class="nav-dropdown-link-line"></span>
-                                    Avulsos
+                                    Atletas
                                   </a>
                                   <a href="#atletas" class="nav-dropdown-link w-dropdown-link">
                                     <span class="nav-dropdown-link-line"></span>
@@ -153,9 +151,13 @@
                           </div>
                           <nav class="nav-dropdown-list w-dropdown-list">
                               <div class="nav-dropdown-link-wrapper">
-                                <a href="#financeiro" class="nav-dropdown-link w-dropdown-link">
-                                  <span class="nav-dropdown-link-line"></span>
-                                  Mensalidades
+                                <a onclick="openHTML('pgto.html','pop-up','Pagamento de Mensalidade',{'tipo':'mensal'})" class="nav-dropdown-link w-dropdown-link">
+                                    <span class="nav-dropdown-link-line"></span>
+                                    Pagamento de Mensalidade
+                                </a>
+                                <a onclick="openHTML('pgto.html','pop-up','Pagamento de Jogo Avulso',{'tipo':'avulso'})" class="nav-dropdown-link w-dropdown-link">
+                                    <span class="nav-dropdown-link-line"></span>
+                                    Pagamento Jogo Avulso
                                 </a>
                                 <a onclick="openHTML('extrato.html','pop-up','Extrato Financeiro')" class="nav-dropdown-link w-dropdown-link">
                                   <span class="nav-dropdown-link-line"> </span>

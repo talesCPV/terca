@@ -259,21 +259,23 @@
 
 // sorteia a ordem dos times
 
-        const times_finais = []
+        const out = new Object
+        out.data = document.querySelector('#cmbData').options[document.querySelector('#cmbData').selectedIndex ].innerHTML
+        out.times  = []
 
         while(times.length){
             if(times[times.length-1].length<6){
-                times_finais.push(times[times.length-1])
+                out.times.push(times[times.length-1])
                 times.splice(times.length-1,1)
             }else{
                 const sort = Math.floor(Math.random()*10000)%times.length
-                times_finais.unshift(times[sort])
+                out.times.unshift(times[sort])
                 times.splice(sort,1)
             }
         }
 
 
-        openHTML('sorteio.html','pop-up','Times Sorteados',times_finais)
+        openHTML('sorteio.html','pop-up','Times Sorteados',out)
 
 
     }

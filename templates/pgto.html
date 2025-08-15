@@ -1,0 +1,58 @@
+<template>
+    <style>
+        .pgto{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+
+    <div class="pgto">
+        <div id="qrcode"></div>
+        <input id="payload" type="text">
+        <p>código de pgto copiado para área de transferência!</p>
+</div>
+
+
+</template>
+<script>
+    const pageData = main_data.pgto.data
+    const pageFunc = main_data.pgto.func
+    const pageScreen = document.querySelector('#card-pgto')
+    const chave  = '26687200879'
+    const nome = 'TALES CEMBRANELI DANTAS'
+    const cidade = 'CACAPAVA'
+    const codpgto = 'rachadeterca' 
+
+    function pageStart(){
+
+        const valor  = pageData.tipo=='mensal' ?  '30.00' : '10.00'
+        const pix = new Pix(chave,valor,nome,cidade,codpgto)
+        const payload = pix.payload()
+        pageScreen.querySelector('#payload').value = payload
+        pageScreen.querySelector('#payload').focus();
+        pageScreen.querySelector('#payload').select();
+        document.execCommand('copy')
+        console.log(payload)
+        const qrcode = new QRCode("qrcode", {
+            text:payload,
+            width: 250,
+            height: 250,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H,
+            size : 300
+        })
+
+
+
+
+
+    }
+
+
+    pageStart()
+
+</script>
