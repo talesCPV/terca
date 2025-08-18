@@ -366,3 +366,56 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+ DROP PROCEDURE sp_view_jogos;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_jogos(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid_racha boolean
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM tb_jogos WHERE id_racha=Iid_racha;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_set_jogo;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_jogo(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Iid_racha int(11),
+        IN Itime_1 varchar(1),
+		IN Itime_2 varchar(1),
+		IN Iplacar_1 int,
+		IN Iplacar_2 int
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_call = 0;
+            SET @access = -1;
+            SELECT IFNULL(id,0), IFNULL(access,-1) INTO @id_call,@access FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1;
+			IF(@id_call>0)THEN
+				IF(@access=0)THEN
+					IF(Iid=0)THEN
+						INSERT INTO tb_jogos (id_usuario,id_racha,time_1,time_2,placar_1,placar_2) 
+						VALUES(@id_call,Iid_racha,Itime_1,Itime_2,Iplacar_1,Iplacar_2);
+					ELSE
+						IF(Iplacar_1=0 AND Iplacar_2=0)THEN
+							DELETE FROM tb_jogos WHERE id=Iid;
+						ELSE
+							UPDATE tb_jogos
+							SET time_1=Itime_1,  time_2=Itime_2,  placar_1=Iplacar_1,  placar_2=Iplacar_2
+							WHERE id=Iid;
+						END IF;
+                    END IF;
+				END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;

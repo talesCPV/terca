@@ -52,7 +52,8 @@ SELECT * FROM vw_extrato;
  	CREATE VIEW vw_presenca AS    
 		SELECT RCH.id AS id_racha, RCH.dia,  ATL.*,
         CASE WHEN PRE.id_atleta IS NOT NULL THEN "SIM" ELSE "NÃO" END AS  vai,
-        IFNULL(PRE.data,"") AS data
+        IFNULL(PRE.data,"") AS data,
+        IFNULL(PRE.time,"") AS time
         FROM vw_ranking AS ATL
         INNER JOIN tb_racha AS RCH
         LEFT JOIN tb_presenca AS PRE

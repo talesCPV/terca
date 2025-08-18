@@ -25,8 +25,10 @@
         "RCH-2" => 'CALL sp_view_presenca(@access,@hash,x00);', // ID_RACHA
         "RCH-3" => 'CALL sp_set_presenca(@access,@hash,x00,x01);', // ID_ATLETA, ID_RACHA
         "RCH-4" => 'CALL sp_update_time(@access,@hash,x00,"x01","x02");', // ID_RACHA,ID_ATLETAS, TIME
+        "RCH-5" => 'CALL sp_view_jogos(@access,@hash,x00);', // id_racha
+        "RCH-6" => 'CALL sp_set_jogo(@access,@hash,x00,x01,"x02","x03",x04,x05);', // id,id_racha,time_1,time_2,placar_1,placar_2
         
-
+        
     );
 
 ?>

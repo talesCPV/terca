@@ -1,0 +1,42 @@
+<template>
+    <style></style>
+
+    <div class="inline">
+        <select id="cmbData"></select>
+    </div>
+
+
+</template>
+<script>
+    const pageData = main_data.placar.data
+    const pageFunc = main_data.placar.func
+    const pageScreen = document.querySelector('#card-placar')
+
+    function pageStart(){
+        pageFunc.viewRacha()
+    }
+
+    pageFunc.viewRacha = ()=>{
+        const params = new Object;   
+            params.open = 0
+        const MyPromisse = queryDB(params,'RCH-0')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const sel = pageScreen.querySelector('#cmbData')
+            sel.innerHTML = ''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].dia.viewDate()
+                opt.data = json[i]
+                sel.appendChild(opt)
+            }
+            sel.selectedIndex = json.length-1
+//            pageFunc.viewPresenca()
+        })
+    }
+
+
+    pageStart()
+
+</script>

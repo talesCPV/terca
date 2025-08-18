@@ -76,3 +76,22 @@ CREATE TABLE tb_presenca (
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 ALTER TABLE tb_presenca ADD COLUMN time varchar(1) DEFAULT "";
+
+DROP TABLE IF EXISTS tb_jogos;
+CREATE TABLE tb_jogos (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	id_usuario int(11) NOT NULL,
+    id_racha int(11) NOT NULL,
+    time_1 varchar(1) DEFAULT "",
+    time_2 varchar(1) DEFAULT "",
+    placar_1 int NOT NULL DEFAULT 0,
+    placar_2 int NOT NULL DEFAULT 0,
+    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_racha) REFERENCES tb_presenca(id_racha) ON DELETE CASCADE,
+    FOREIGN KEY (time_1) REFERENCES tb_presenca(time) ON DELETE CASCADE,
+    FOREIGN KEY (time_2) REFERENCES tb_presenca(time) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ALTER TABLE tb_presenca ADD COLUMN time varchar(1) DEFAULT "";
