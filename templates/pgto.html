@@ -6,14 +6,23 @@
             align-items: center;
             justify-content: center;
         }
+
+        #lblValor{
+            font-size: 1.6em;
+            padding-top: 15px;
+        }
+
     </style>
 
 
     <div class="pgto">
         <div id="qrcode"></div>
-        <input id="payload" type="text">
-        <p>código de pgto copiado para área de transferência!</p>
-</div>
+        <label id="lblValor"></label>
+        <input id="payload" type="text" readonly>
+        <div class="line">
+            <button id="btnCopy">Copiar</button>
+        </div>        
+    </div>
 
 
 </template>
@@ -32,9 +41,7 @@
         const pix = new Pix(chave,valor,nome,cidade,codpgto)
         const payload = pix.payload()
         pageScreen.querySelector('#payload').value = payload
-        pageScreen.querySelector('#payload').focus();
-        pageScreen.querySelector('#payload').select();
-        document.execCommand('copy')
+        pageScreen.querySelector('#lblValor').innerHTML = 'R$'+valor
         console.log(payload)
         const qrcode = new QRCode("qrcode", {
             text:payload,
@@ -45,12 +52,14 @@
             correctLevel : QRCode.CorrectLevel.H,
             size : 300
         })
-
-
-
-
-
     }
+
+    pageScreen.querySelector('#btnCopy').addEventListener('click',()=>{
+        pageScreen.querySelector('#payload').focus();
+        pageScreen.querySelector('#payload').select();
+        document.execCommand('copy')
+        alert('Código de pagamento copiado para área de transferência!')
+    })
 
 
     pageStart()

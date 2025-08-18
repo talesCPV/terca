@@ -69,24 +69,48 @@
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
 
+        if(confirm('Deseja salvar os times nesta configuração?')){
 
-        const dataURL = canvas.toDataURL('image/jpeg');
+            for(let i=0; i<pageData.times.length; i++){
+                setTime(pageData.times[i],String.fromCharCode(65+i))
+            }
 
-        // To display in an image tag
-        const img = document.createElement('img');
-        img.src = dataURL;
-        document.body.appendChild(img);
+            const canvas = document.getElementById('myCanvas');
+            const dataURL = canvas.toDataURL('image/png');
 
-        // To create a download link
-        const link = document.createElement('a');
-        link.href = dataURL;
-        link.download = 'text_image.jpg';
-        link.textContent = 'Download Image';
-        document.body.appendChild(link);
-
-
+            // To create a download link
+            const link = document.createElement('a');
+            link.id = 'img-download'
+            link.href = dataURL;
+            link.download = `${pageData.data.replaceAll('/','_')}.png`;
+            link.textContent = 'Download Image';
+            document.body.appendChild(link);
+            link.click()
+            link.remove()
+        }
 
     })
+
+    function setTime(players,time){
+
+        let lista = ''
+        let id_racha = ''
+        
+        for(let i=0; i<players.length; i++){
+            id_racha  = players[i].id_racha
+            lista += (i==0 ? '' : ',') + players[i].id_atleta
+        }
+
+        const params = new Object;   
+            params.id_racha = id_racha
+            params.id_atletas = lista
+            params.time = time
+        const MyPromisse = queryDB(params,'RCH-4')
+        MyPromisse.then((resolve)=>{
+
+        })
+    }
+
 
     pageStart()
 

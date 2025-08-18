@@ -346,3 +346,23 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_update_time;
+DELIMITER $$
+	CREATE PROCEDURE sp_update_time(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_racha int(11),
+        IN Iid_atletas varchar(50),
+        IN Itime varchar(1)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('UPDATE tb_presenca SET time="',Itime,'" WHERE id_racha=',Iid_racha,' AND id_atleta IN (',Iid_atletas,');');            
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+
+        END IF;
+	END $$
+DELIMITER ;

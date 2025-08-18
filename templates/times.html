@@ -1,0 +1,95 @@
+<template>
+    <style>
+        .frm-times{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+
+    <div class="inline">
+        <select id="cmbData"></select>
+    </div>
+
+    <div class="frm-times">
+
+    </div>
+
+</template>
+<script>
+    const pageData = main_data.times.data
+    const pageFunc = main_data.times.func
+    const pageScreen = document.querySelector('#card-times')
+
+    function pageStart(){
+        pageFunc.viewRacha()
+    }
+
+
+    pageFunc.viewRacha = ()=>{
+        const params = new Object;   
+            params.open = 0
+        const MyPromisse = queryDB(params,'RCH-0')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const sel = pageScreen.querySelector('#cmbData')
+            sel.innerHTML = ''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].dia.viewDate()
+                opt.data = json[i]
+                sel.appendChild(opt)
+            }
+            sel.selectedIndex = json.length-1
+            pageFunc.viewTimes()
+        })
+    }
+
+    pageFunc.viewTimes = ()=>{
+        const params = new Object;   
+            params.id_racha = pageScreen.querySelector('#cmbData').value
+        const MyPromisse = queryDB(params,'RCH-2')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.times = new Object
+            for(let i=0; i<json.length; i++){
+                const time = json[i].time
+                if(pageData.times[time] == undefined && time!=''){
+                    pageData.times[time] = []
+                }
+                if(time!=''){
+                    pageData.times[time].push(json[i])
+                }
+
+            }
+
+            const frm = pageScreen.querySelector('.frm-times')
+            frm.innerHTML = ''
+            for (const [key, value] of Object.entries(pageData.times)) {                
+                const fds = document.createElement('fieldset')
+                fds.style.order = key=="A" ? -1 : key=="C" ? 3 : 0
+                frm.appendChild(fds)
+                const legend = document.createElement('legend')
+                fds.appendChild(legend)
+                legend.innerHTML = 'Time '+key
+                const tbl = document.createElement('table')
+                fds.appendChild(tbl)
+                tbl.head('Nome,Posição,Mensal')
+                value.sort((a, b) => a.posicao < b.posicao);
+                for(let j=0; j<value.length; j++){
+                    tbl.plot(value[j],'nome,posicao,mensalista','Upp,Upp,Upp')
+                }
+            }
+
+        })
+    }
+
+    pageScreen.querySelector('#cmbData').addEventListener('change',()=>{
+        pageFunc.viewTimes()
+    })
+
+    pageStart()
+
+</script>

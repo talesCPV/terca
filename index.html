@@ -78,6 +78,15 @@
             border-bottom: solid 5px;
         }
 
+        .landing-inner-page-image{
+            width: 500px;
+            height: 400px;
+        }
+
+        .landing-inner-page-item{
+            width: 500px;
+        }
+
         @media screen and (max-width: 991px) {
             .brand-tablet.w--current {
                 max-width: unset;
@@ -129,13 +138,13 @@
                                     <span class="nav-dropdown-link-line"></span>
                                     Lista de Presença
                                   </a>
-                                  <a href="#racha" class="nav-dropdown-link w-dropdown-link">
+                                  <a onclick="openHTML('times.html','pop-up','Times sorteados')" class="nav-dropdown-link w-dropdown-link">
                                     <span class="nav-dropdown-link-line"> </span>
-                                    Sorteio de Times
+                                    Ver Times
                                   </a>
                                   <a href="#racha" class="nav-dropdown-link w-dropdown-link">
                                     <span class="nav-dropdown-link-line"> </span>
-                                    Anteriores
+                                    Resultados
                                   </a>
                                   <a onclick="openHTML('new_racha.html','pop-up','Novo Racha')" class="nav-dropdown-link w-dropdown-link hide adm">
                                     <span class="nav-dropdown-link-line"> </span>
@@ -227,19 +236,19 @@
                     </div>
                     <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Lista de Presença</h5>
                 </a>
-                <a href="#racha" data-w-id="de449d09-7c2e-28ae-5cc8-532958d1c774" class="landing-inner-page-item home-screen w-inline-block">
+                <a onclick="openHTML('times.html','pop-up','Times sorteados')" data-w-id="de449d09-7c2e-28ae-5cc8-532958d1c774" class="landing-inner-page-item home-screen w-inline-block">
                     <div class="landing-inner-page-image-wrapper"><img src="assets/times.jpg" loading="lazy" style="filter:blur(0px)" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" alt="screenshot" srcset="assets/times.jpg" class="landing-inner-page-image" />
                         <div style="opacity:0" class="landing-inner-page-overlay"></div>
                         <div style="opacity:0" class="landing-inner-page-icon"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67d43125725b4244f4dbc37f_Frame%20(41).svg" loading="lazy" alt="icon" class="landing-arrow" /></div>
                     </div>
-                    <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Sorteio de Times</h5>
+                    <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Ver Times</h5>
                 </a>
                 <a href="#racha" data-w-id="de449d09-7c2e-28ae-5cc8-532958d1c77c" class="landing-inner-page-item home-screen w-inline-block">
                     <div class="landing-inner-page-image-wrapper"><img src="assets/anteriores.jpg" class="landing-inner-page-image" />
                         <div style="opacity:0" class="landing-inner-page-overlay"></div>
                         <div style="opacity:0" class="landing-inner-page-icon"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67d43125725b4244f4dbc37f_Frame%20(41).svg" loading="lazy" alt="icon" class="landing-arrow" /></div>
                     </div>
-                    <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Semanas Anteriores</h5>
+                    <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Resultados</h5>
                 </a></div>
         </div>
     </div>
@@ -249,13 +258,20 @@
                 <h2 class="landing-section-title">Planilhas e controles <span class="bold-text-span">Financeiro</span></h2>
                 <p class="section-ttile-description">Entradas e saídas, aquisições, mensalidades, etc.</p>
             </div>
-            <div data-w-id="15aebf21-ab47-b317-b0e9-e92e52439d17" style="opacity:0" class="landing-inner-pages-wrapper">
-                <a href="#financeiro" data-w-id="15aebf21-ab47-b317-b0e9-e92e52439d18" class="landing-inner-page-item w-inline-block">
+            <div data-w-id="15aebf21-ab47-b317-b0e9-e92e52439d17" style="opacity:0" class="landing-home-pages-wrapper">
+                <a onclick="openHTML('pgto.html','pop-up','Pagamento de Mensalidade',{'tipo':'mensal'})" data-w-id="15aebf21-ab47-b317-b0e9-e92e52439d18" class="landing-inner-page-item w-inline-block">
                     <div class="landing-inner-page-image-wrapper"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67ed4da359024f5bfa683b51_athletic-wcopilot.webflow.io_about-us%20(1).webp" loading="lazy" style="filter:blur(0px)" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" alt="screenshot" srcset="assets/mensalista.jpg" class="landing-inner-page-image" />
                         <div style="opacity:0" class="landing-inner-page-overlay"></div>
                         <div style="opacity:0" class="landing-inner-page-icon"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67d43125725b4244f4dbc37f_Frame%20(41).svg" loading="lazy" alt="icon" class="landing-arrow" /></div>
                     </div>
                     <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Mensalidades</h5>
+                </a>
+                <a onclick="openHTML('pgto.html','pop-up','Pagamento de jogo Avulso',{'tipo':'avulso'})" data-w-id="15aebf21-ab47-b317-b0e9-e92e52439d18" class="landing-inner-page-item w-inline-block">
+                    <div class="landing-inner-page-image-wrapper"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67ed4da359024f5bfa683b51_athletic-wcopilot.webflow.io_about-us%20(1).webp" loading="lazy" style="filter:blur(0px)" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" alt="screenshot" srcset="assets/avulso.jpg" class="landing-inner-page-image" />
+                        <div style="opacity:0" class="landing-inner-page-overlay"></div>
+                        <div style="opacity:0" class="landing-inner-page-icon"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67d43125725b4244f4dbc37f_Frame%20(41).svg" loading="lazy" alt="icon" class="landing-arrow" /></div>
+                    </div>
+                    <h5 style="color:rgb(0,0,0)" class="landing-inner-page-title">Avulsos</h5>
                 </a>
                 <a onclick="openHTML('extrato.html','pop-up','Extrato Financeiro')" data-w-id="15aebf21-ab47-b317-b0e9-e92e52439d20" class="landing-inner-page-item w-inline-block">
                     <div class="landing-inner-page-image-wrapper"><img src="https://cdn.prod.website-files.com/67d3e78113168635558f70d0/67ed4e2f36c5d437e19f3efa_athletic-wcopilot.webflow.io_our-mission%20(1).webp" loading="lazy" style="filter:blur(0px)" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" alt="screenshot" srcset="assets/financeiro.jpg" class="landing-inner-page-image" />
@@ -303,7 +319,7 @@
                                 <a href="#racha" class="footer-link">Lista de Presença</a>
                             </div>
                             <div role="listitem" class="footer-collection-item w-dyn-item">
-                                <a href="#racha" class="footer-link">Sorteio de Times</a>
+                                <a href="#racha" class="footer-link">Ver Times</a>
                             </div>
                             <div role="listitem" class="footer-collection-item w-dyn-item">
                                 <a href="#racha" class="footer-link">Semanas Anteriores</a>
