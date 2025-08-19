@@ -78,13 +78,13 @@
             }
 
             const canvas = document.getElementById('myCanvas');
-            const dataURL = canvas.toDataURL('image/jpg',0.8);
+            const dataURL = canvas.toDataURL('image/png');
 
             // To create a download link
             const link = document.createElement('a');
             link.id = 'img-download'
             link.href = dataURL;
-            link.download = `${pageData.data.replaceAll('/','_')}.jpg`;
+            link.download = `${pageData.data.replaceAll('/','_')}.png`;
             link.textContent = 'Download Image';
             document.body.appendChild(link);
             link.click()
