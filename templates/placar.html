@@ -1,9 +1,81 @@
 <template>
-    <style></style>
+    <style>
+
+        .novo-placar{
+            background-color: #e5fad7;
+        }
+
+        .edicao-placar{
+            background-color: #fae5d7;
+        }
+
+
+        .placar{
+            display: flex;
+            flex-direction: row;
+        }
+
+        .placar input{
+            width: 70px !important;
+            min-width: unset !important;
+        }
+
+        .placar select{
+            width: 150px;
+        }
+
+        label{
+            width: unset !important;
+        }
+
+        #tblPlacar td{
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        @media (max-width: 768px) {
+            .placar:nth-child(3){
+                flex-direction: row-reverse;
+            }
+        }
+
+
+    </style>
 
     <div class="inline">
         <select id="cmbData"></select>
     </div>
+
+    <table id="tblPlacar"></table>
+
+    <div class="line">
+        <button id="btnNovo">Novo Jogo</button>
+    </div>
+
+    <fieldset class="fds-placar novo-placar">
+        <legend id="lblPlacar">Novo Jogo</legend>
+        <div class="inline">
+            <div class="placar">
+                <select id="cmbTime1">
+                    <option value="A" selected>Time A</option>
+                    <option value="B">Time B</option>
+                    <option value="C">Time C</option>
+                </select>
+                <input type="number" id="edtTime1" onfocus="this.select();" inputmode="decimal" onkeyup="valInt(this)" value="0">    
+            </div>
+            <label>X</label>
+            <div class="placar">
+                <input type="number" id="edtTime2" onfocus="this.select();" inputmode="decimal" onkeyup="valInt(this)" value="0">
+                <select id="cmbTime2">
+                    <option value="A">Time A</option>
+                    <option value="B" selected>Time B</option>
+                    <option value="C">Time C</option>
+                </select>
+            </div>
+            <button class="btn-round" id="btnAdd">+</button>
+        </div>
+
+    </fieldset>
 
 
 </template>
@@ -11,9 +83,15 @@
     const pageData = main_data.placar.data
     const pageFunc = main_data.placar.func
     const pageScreen = document.querySelector('#card-placar')
+    let id_placar = 0
 
     function pageStart(){
         pageFunc.viewRacha()
+    }
+
+    function sameTime(cmb1,cmb2){
+        cmb2.selectedIndex +=  cmb1.selectedIndex==cmb2.selectedIndex ? 1 : 0
+        cmb2.selectedIndex = cmb2.selectedIndex < 0 ? 0 : cmb2.selectedIndex
     }
 
     pageFunc.viewRacha = ()=>{
@@ -32,10 +110,82 @@
                 sel.appendChild(opt)
             }
             sel.selectedIndex = json.length-1
-//            pageFunc.viewPresenca()
+            pageFunc.viewJogos()
         })
     }
 
+    pageFunc.viewJogos= ()=>{
+        const params = new Object;   
+            params.id_racha = pageScreen.querySelector('#cmbData').value
+        const MyPromisse = queryDB(params,'RCH-5')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblPlacar')
+            tbl.head('')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'time_1,placar_1,X,placar_2,time_2','Upp,Upp,let,Upp,Upp')
+            }
+
+        })
+    }
+
+    pageFunc.setPlacar = ()=>{
+        const params = new Object
+            params.id  = id_placar
+            params.id_racha = pageScreen.querySelector('#cmbData').value
+            params.time1 = pageScreen.querySelector('#cmbTime1').value
+            params.time2 = pageScreen.querySelector('#cmbTime2').value
+            params.placar1 = pageScreen.querySelector('#edtTime1').value
+            params.placar2 = pageScreen.querySelector('#edtTime2').value
+        const MyPromisse = queryDB(params,'RCH-6')
+        MyPromisse.then((resolve)=>{
+            pageFunc.viewJogos()
+        })
+    }
+
+    pageScreen.querySelector('#cmbTime1').addEventListener('click',()=>{
+        sameTime(pageScreen.querySelector('#cmbTime1'),pageScreen.querySelector('#cmbTime2'))
+    })
+
+    pageScreen.querySelector('#cmbTime2').addEventListener('click',()=>{
+        sameTime(pageScreen.querySelector('#cmbTime2'),pageScreen.querySelector('#cmbTime1'))
+    })
+
+    pageScreen.querySelector('#cmbData').addEventListener('change',()=>{
+        pageFunc.viewJogos()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        id_placar = 0
+        pageScreen.querySelector('#cmbTime1').value = 'A'
+        pageScreen.querySelector('#cmbTime2').value = 'B'
+        pageScreen.querySelector('#edtTime1').value = 0
+        pageScreen.querySelector('#edtTime2').value  = 0
+        pageScreen.querySelector('#lblPlacar').innerHTML  = 'Novo Jogo'
+        pageScreen.querySelector('.fds-placar').classList.remove('edicao-placar')
+        pageScreen.querySelector('.fds-placar').classList.add('novo-placar')
+    })
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        if(confirm('Adiconar este placar?')){
+            pageFunc.setPlacar()
+        }
+    })
+
+    pageScreen.querySelector('#tblPlacar').addEventListener('click',(e)=>{
+        if(localStorage.getItem('access')=='0'){
+            const data = e.target.parentNode.data
+            id_placar = data.id
+            pageScreen.querySelector('#cmbTime1').value = data.time_1
+            pageScreen.querySelector('#cmbTime2').value = data.time_2
+            pageScreen.querySelector('#edtTime1').value = data.placar_1
+            pageScreen.querySelector('#edtTime2').value  = data.placar_2
+            pageScreen.querySelector('#lblPlacar').innerHTML  = 'Edição de Resultado'
+            pageScreen.querySelector('.fds-placar').classList.remove('novo-placar')
+            pageScreen.querySelector('.fds-placar').classList.add('edicao-placar')
+        }
+
+    })
 
     pageStart()
 

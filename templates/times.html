@@ -6,15 +6,20 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
+        #tblPlacar td{
+            text-align: center;
+            font-size: 1.5em;
+        }
+
     </style>
 
     <div class="inline">
         <select id="cmbData"></select>
     </div>
 
-    <div class="frm-times">
-
-    </div>
+    <div class="frm-times"></div>
+    <table id="tblPlacar"></table>
 
 </template>
 <script>
@@ -43,7 +48,7 @@
                 sel.appendChild(opt)
             }
             sel.selectedIndex = json.length-1
-            pageFunc.viewTimes()
+            pageFunc.viewTimes()            
         })
     }
 
@@ -81,6 +86,21 @@
                 for(let j=0; j<value.length; j++){
                     tbl.plot(value[j],'nome,posicao,mensalista','Upp,Upp,Upp')
                 }
+            }
+            pageFunc.viewJogos()
+        })
+    }
+
+    pageFunc.viewJogos= ()=>{
+        const params = new Object;   
+            params.id_racha = pageScreen.querySelector('#cmbData').value
+        const MyPromisse = queryDB(params,'RCH-5')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblPlacar')
+            tbl.head('')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'time_1,placar_1,X,placar_2,time_2','Upp,Upp,let,Upp,Upp')
             }
 
         })

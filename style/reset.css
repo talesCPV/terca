@@ -39,6 +39,7 @@
         cursor: pointer;
         margin: 10px;
         padding: 10px;
+        background-color: #00000014;
     }
 
     textarea{
@@ -167,8 +168,13 @@
 
     .line button{
         min-width: 150px;
-        border: solid 1px;
+/*        border: solid 1px;*/
         border-radius: 7px;
+    }
+
+    .line button:hover{
+        background-color: #2e2929;
+        color: #cfcfcf;
     }
 
     .line-ckb{
