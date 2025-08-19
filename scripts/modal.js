@@ -69,7 +69,7 @@ function newModal(title, content, width, id,type='pop-up'){
         upper_page.top = 50
     }else{
         upper_page.zIndex = parseInt(pages[upper_page.i].style.zIndex)+1
-        upper_page.top = parseInt(pages[upper_page.i].style.top)+15
+        upper_page.top = parseInt(pages[upper_page.i].style.top)+offset
     }
     upper_page.left = 100 + (document.querySelector('body').offsetWidth - 100 - parseInt(width))/2 + upper_page.zIndex*offset
 
@@ -83,7 +83,7 @@ function newModal(title, content, width, id,type='pop-up'){
         mod_card.style.margin = '0 auto'
 //        mod_card.style.width = width
         mod_card.style.top = type=='web-window' ? '50%' : upper_page.top+'px' 
-//        mod_card.style.left = type=='web-window' ? 'calc(50% + 41px)' : upper_page.left+'px'
+        mod_card.style.left = type=='web-window' ? '50%' : upper_page.left+'px'
         mod_card.style.overflow = 'auto'
         mod_card.style.transform =  type=='web-window' ? 'translate(-50%, -50%)' : ''
     }

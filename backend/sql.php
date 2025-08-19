@@ -28,7 +28,12 @@
         "RCH-5" => 'CALL sp_view_jogos(@access,@hash,x00);', // id_racha
         "RCH-6" => 'CALL sp_set_jogo(@access,@hash,x00,x01,"x02","x03",x04,x05);', // id,id_racha,time_1,time_2,placar_1,placar_2
         
+        /* POST */
+        "PST-0" => 'CALL sp_view_post(@access,@hash,x00);', // registro_inicial
+        "PST-1" => 'CALL sp_set_post(@access,@hash,x00,x01,"x02");', // id,id_post,texto
+
         
+
     );
 
 ?>

@@ -41,10 +41,48 @@ function alterLogin(){
         lg[i].style.display = localStorage.getItem('access') == '0' ? 'block' : 'none'
     }
 
+    lg = document.querySelectorAll('.post-link')
+    for(let i=0; i<lg.length; i++){
+        if(localStorage.getItem('nome') != null){
+            const a = document.createElement('a')
+            a.className = 'primary-button cta-button w-button post-link'
+            a.innerHTML = 'Novo Post'
+            a.addEventListener('click',()=>{
+                openHTML('post.html','web-window','Novo Post')
+            })
+            lg[i].parentNode.appendChild(a)
+            lg[i].remove()
+        }else{
+            lg[i].innerHTML =  'Junte-se a Nós'
+        }
+        
+    }
+
     document.querySelector('.promotion-label-holder').style.display = localStorage.getItem('hash') != null ? 'none' : 'block'
 
 }
 
+function loadPost(ini=0){
+    const params = new Object
+        params.id  = ini
+
+
+    const MyPromisse = queryDB(params,'PST-0')
+    MyPromisse.then((resolve)=>{
+        const json = JSON.parse(resolve)
+        const main = document.querySelector('.show-post')
+        console.log(json)
+        for(let i=0; i<json.length; i++){
+            const post = document.createElement('div')
+            main.appendChild(post)
+            const texto = document.createElement('p')
+            post.appendChild(texto)
+            texto.innerHTML = json[i].texto
+
+        }
+
+    })
+}
 
 
 

@@ -419,3 +419,52 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+
+ DROP PROCEDURE sp_view_post;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_post(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iini int
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM tb_post ORDER BY data_hora LIMIT Iini,10;
+        END IF;
+	END $$
+DELIMITER ;
+
+
+ DROP PROCEDURE IF EXISTS sp_set_post;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_post(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Iid_post int(11),
+		IN Itexto varchar(512)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_call = (SELECT IFNULL(id,0) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
+			IF(@id_call>0)THEN
+				IF(Iid=0 AND Itexto!="")THEN
+					SET @id_post = (SELECT IF (Iid_post=0,NULL,Iid_post) AS ID_POST);
+					INSERT INTO tb_post (id_usuario,id_post,texto) 
+					VALUES(@id_call,@id_post,Itexto);
+				ELSE
+					IF(Itexto="")THEN
+						DELETE FROM tb_post WHERE id=Iid;
+					ELSE
+						UPDATE tb_post
+						SET texto=Itexto
+						WHERE id=Iid;
+					END IF;
+				END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
