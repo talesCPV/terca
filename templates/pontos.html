@@ -1,0 +1,34 @@
+<template>
+    <style>
+        .center{
+            text-align: center;
+        }
+    </style>
+    <table id="tblPontos"></table>
+</template>
+<script>
+    const pageData = main_data.pontos.data
+    const pageFunc = main_data.pontos.func
+    const pageScreen = document.querySelector('#card-pontos')
+
+    function pageStart(){
+        pageFunc.viewPontos()
+    }
+
+    pageFunc.viewPontos = ()=>{
+        const MyPromisse = queryDB({},'RCH-7')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblPontos')
+            tbl.head('Atleta,Jogos|center,Vitórias|center,Derrotas|center,Pts Pró|center,Pts Contra|center')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'nome,jogos|center,vitoria|center,derrota|center,pt_pro|center,pt_contra|center','Upp,int,int,int,int,int')
+            }
+            console.log(json)
+        })
+    }
+
+
+    pageStart()
+
+</script>

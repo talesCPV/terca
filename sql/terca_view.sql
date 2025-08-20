@@ -66,3 +66,22 @@ SELECT * FROM vw_extrato;
 		END;
 
 SELECT * FROM vw_presenca;
+
+
+	DROP VIEW IF EXISTS vw_pontos;
+ 	CREATE VIEW vw_pontos AS   
+		SELECT COUNT(*) AS jogos, ATL.id AS id_atleta, ATL.nome, ATL.posicao, ATL.sexo,PRE.time,
+		SUM(IF((PRE.time=JOG.time_1 AND JOG.placar_1>JOG.placar_2) OR(PRE.time=JOG.time_2 AND JOG.placar_2>JOG.placar_1) ,1,0)) AS vitoria,
+		SUM(IF((PRE.time=JOG.time_1 AND JOG.placar_1>JOG.placar_2) OR(PRE.time=JOG.time_2 AND JOG.placar_2>JOG.placar_1) ,0,1)) AS derrota,
+		SUM(IF(PRE.time=JOG.time_1,JOG.placar_1,JOG.placar_2)) AS pt_pro,
+		SUM(IF(PRE.time=JOG.time_1,JOG.placar_2,JOG.placar_1)) AS pt_contra
+		FROM tb_jogos AS JOG
+		INNER JOIN tb_presenca AS PRE
+		INNER JOIN tb_atleta AS ATL
+		ON JOG.id_racha = PRE.id_racha
+		AND ATL.id = PRE.id_atleta
+		AND (JOG.time_1=PRE.time OR JOG.time_2=PRE.time)
+		GROUP BY ATL.id
+		ORDER BY vitoria DESC, derrota ASC, pt_pro DESC, pt_contra ASC;
+
+SELECT * FROM vw_pontos;

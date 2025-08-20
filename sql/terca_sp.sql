@@ -420,6 +420,13 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE sp_view_pontos;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_pontos()
+	BEGIN
+		SELECT * FROM vw_pontos;
+	END $$
+DELIMITER ;
 
  DROP PROCEDURE sp_view_post;
 DELIMITER $$
