@@ -1,0 +1,67 @@
+<template>
+    <style></style>
+
+    <fieldset>
+        <legend>Selecione o Atleta</legend>
+        <select id="cmbAtleta" size="15"></select>
+        <div class="line">
+            <button id="btnAdd">Adicionar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    const pageData = main_data.sel_atleta.data
+    const pageFunc = main_data.sel_atleta.func
+    const pageScreen = document.querySelector('#card-sel_atleta')
+
+    function pageStart(){
+        pageFunc.fillAtleta()
+    }
+
+    pageFunc.fillAtleta = ()=>{
+        const params = new Object;   
+            params.nome = ''
+        const MyPromisse = queryDB(params,'ATL-0')
+        MyPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)    
+            const sel = pageScreen.querySelector('#cmbAtleta')
+            sel.innerHTML = ''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id_atleta
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                sel.appendChild(opt)
+            }
+            sel.selectedIndex = 0        
+        })
+    }
+
+    pageFunc.addTime = (id_atleta)=>{
+        const params = new Object;   
+            params.id_racha = pageData.id_racha
+            params.id_atleta = id_atleta
+            params.time =  pageData.time
+        const MyPromisse = queryDB(params,'RCH-4')
+        MyPromisse.then((resolve)=>{
+            try{
+                main_data.times.func.viewTimes()
+            }finally{
+                closeModal('sel_atleta')
+            }
+        })
+    }
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        const sel = pageScreen.querySelector('#cmbAtleta')
+        const item = sel[sel.selectedIndex]
+        if(confirm(`Adicionar o atleta ${item.data.nome} no time ${pageData.time}?`)){
+            pageFunc.addTime(item.data.id_atleta)
+        }
+    })
+
+
+    pageStart()
+
+</script>

@@ -31,7 +31,11 @@
     const pageScreen = document.querySelector('#card-presenca')
 
     function pageStart(){
-        pageFunc.viewRacha()
+        try{
+            pageFunc.viewRacha()
+        }catch{
+            console.log('Nenhum Racha programado!')
+        }
 
         if(localStorage.getItem('access')=='0'){
             pageScreen.querySelector('.btn-adm').style.display = 'block'
@@ -54,7 +58,7 @@
                 sel.appendChild(opt)
             }
             sel.selectedIndex = json.length-1
-            pageFunc.viewPresenca()
+            json.length ? pageFunc.viewPresenca() : alert('Nenhum racha programado!')
         })
     }
 

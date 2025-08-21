@@ -18,25 +18,23 @@
     const pageData = main_data.post.data
     const pageFunc = main_data.post.func
     const pageScreen = document.querySelector('#card-post')
+    const newPost = Object.keys(pageData).length <= 2
 
     function pageStart(){
+        if(!newPost){
+            pageScreen.querySelector('#edtPost').value = pageData.texto
+        }
 
-    }
-
-    pageFunc.setPost = (post_pai=0,id=0)=>{
-        const params = new Object
-            params.id  = id
-            params.id_post = post_pai
-            params.texto = pageScreen.querySelector('#edtPost').value
-
-        const MyPromisse = queryDB(params,'PST-1')
-        MyPromisse.then((resolve)=>{
-            closeModal('post')
-        })
     }
 
     pageScreen.querySelector('#btnPost').addEventListener('click',()=>{
-        pageFunc.setPost()
+        const texto = pageScreen.querySelector('#edtPost').value.trim()
+        const edit = newPost ? 0 : pageData.id_post
+        const filho = Object.keys(pageData).length === 2 ? pageData.id_pai : 0
+        setPost(texto,edit,filho).then((resolve)=>{
+            loadPost()
+            closeModal('post')
+        })
     })
 
 

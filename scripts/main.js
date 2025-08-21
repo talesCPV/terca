@@ -62,6 +62,14 @@ function alterLogin(){
 
 }
 
+function setPost(texto,edit=0,id_post=0){   
+    const params = new Object
+        params.id  = edit ? edit : 0
+        params.id_post = id_post ? id_post : 0
+        params.texto = texto.trim()
+    return queryDB(params,'PST-1')
+}
+
 function loadPost(ini=0){
     const params = new Object
         params.id  = ini
@@ -71,7 +79,7 @@ function loadPost(ini=0){
     MyPromisse.then((resolve)=>{
         const json = JSON.parse(resolve)
         const main = document.querySelector('.show-post')
-        console.log(json)
+        main.innerHTML = ini ? main.innerHTML : ''
         for(let i=0; i<json.length; i++){
             const post = document.createElement('div')
             main.appendChild(post)
@@ -109,18 +117,21 @@ function loadPost(ini=0){
                 btn_more.addEventListener('click',(e)=>{
                     e.preventDefault()
                     const tbl = []
-console.log(e.clientY)
                     const del = new Object
                     del.label = 'Deletar'
                     del.link = ()=>{
-                        alert('Deletar Mensagem!')
+                        if(confirm('Deseja deletar este post?')){
+                            setPost('',json[i].id_post).then((resolve)=>{
+                                loadPost(ini)
+                            })
+                        }
                     }            
                     tbl.push(del)
         
                     const edit = new Object
                     edit.label = 'Editar'
                     edit.link = ()=>{
-                        alert('Editar Mensagem!')
+                        openHTML('post.html','pop-up','Edição de Post',json[i])
                     }            
                     tbl.push(edit)          
                     menuContext(tbl,e,1)

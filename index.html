@@ -185,7 +185,7 @@
                               </div>
                           </nav>
                       </div>
-                        <a href="#blog" class="nav-link w-nav-link">Blog</a>
+                        <a href="#blog" class="nav-link w-nav-link">Posts</a>
                         <a onclick="openHTML('login.html')" class="nav-link w-nav-link login-link">Login</a>
 
                         <div class="tablet-header-button-wrapper"><a onclick="openHTML('new_user.html','pop-up','Novo Usuário')"  class="primary-button black-button w-button user-link">Junte-se a Nós</a></div>
@@ -292,7 +292,7 @@
     <div id="blog" class="section color-section">
         <div data-w-id="caa92d6c-904d-ef03-5e45-260ae1d16254" style="opacity:0" class="base-container w-container">
             <div class="free-trial-wrap landing">
-                <h2 data-w-id="caa92d6c-904d-ef03-5e45-260ae1d16256" style="opacity:0" class="free-trial-title"><span class="bold-text-span">Blog</span></h2>
+                <h2 data-w-id="caa92d6c-904d-ef03-5e45-260ae1d16256" style="opacity:0" class="free-trial-title"><span class="bold-text-span">Posts</span></h2>
                 <div class="show-post"></div>
                 <div data-w-id="4edd92cf-9531-e373-5853-c50bca1405a0" style="opacity:0"><a onclick="openHTML('new_user.html','pop-up','Novo Usuário')" target="_blank" class="primary-button cta-button w-button post-link">Junte-se a nós</a></div>
             </div>
@@ -314,23 +314,20 @@
                 </div>
                 <div class="footer-links-wrapper">
                     <div class="footer-links-title"><a href="#atletas"> Atletas</a></div>
-                    <a href="#atletas" class="footer-link">Mensalistas</a>
-                    <a href="#atletas" class="footer-link">Avulsos</a>
-                    <a href="#atletas" class="footer-link">Classificação</a>
+                    <a onclick="openHTML('atletas.html','show-atletas','Atletas',{'show':'atletas'})" class="footer-link">Lista de Atletas</a>
+                    <a onclick="openHTML('pontos.html','pop-up','Ranking de Vitórias')" class="footer-link">Ranking</a>
                 </div>
                 <div class="footer-links-wrapper">
                     <div class="footer-links-title"><a href="#racha">Rachas</a></div>
                     <div class="w-dyn-list">
                         <div role="list" class="w-dyn-items">
                             <div role="listitem" class="footer-collection-item w-dyn-item">
-                                <a href="#racha" class="footer-link">Lista de Presença</a>
+                                <a onclick="openHTML('presenca.html','pop-up','Lista de Presença')" class="footer-link">Lista de Presença</a>
                             </div>
                             <div role="listitem" class="footer-collection-item w-dyn-item">
-                                <a href="#racha" class="footer-link">Ver Times</a>
+                                <a onclick="openHTML('times.html','pop-up','Times sorteados')" class="footer-link">Times e Resultados</a>
                             </div>
-                            <div role="listitem" class="footer-collection-item w-dyn-item">
-                                <a href="#racha" class="footer-link">Semanas Anteriores</a>
-                            </div>
+     
                         </div>
                     </div>
                 </div>
@@ -338,19 +335,20 @@
                     <div class="footer-links-title"><a href="#financeiro"> Financeiro</a></div>
                     <div class="w-dyn-list">
                         <div role="list" class="w-dyn-items">
-                            <div role="listitem" class="footer-collection-item w-dyn-item"><a onclick="openHTML('pgto.html','pop-up','Pagamento')" class="footer-link">Pagamento</a></div>
+                            <div role="listitem" class="footer-collection-item w-dyn-item"><a onclick="openHTML('pgto.html','pop-up','Pagamento',{'tipo':'mensal'})" class="footer-link">Pgto Mensalidade</a></div>
+                            <div role="listitem" class="footer-collection-item w-dyn-item"><a onclick="openHTML('pgto.html','pop-up','Pagamento',{'tipo':'avulso'})" class="footer-link">Pgto Jogo Avulso</a></div>
                             <div role="listitem" class="footer-collection-item w-dyn-item"><a onclick="openHTML('extrato.html','pop-up','Lançamentos')" class="footer-link">Extrato/Caixa</a></div>
                         </div>
                     </div>
                 </div>
                 <div class="footer-links-wrapper">
-                    <div class="footer-links-title"><a href="#blog"> Blog</a></div>
+                    <div class="footer-links-title"><a href="#blog"> Posts</a></div>
                 </div>
 
             </div>
             <div class="footer-bottom-wrapper">
                 <div class="footer-copyright-wrapper">
-                    <div class="footer-copyright"> Desenvolvido por <a href="templates/licensing" class="licensing-footer-link">Planet3</a>, todos os direitos reservados ©</div>
+                    <div class="footer-copyright"> Desenvolvido por <a href="https://www.planet3.com.br" class="licensing-footer-link">Planet3</a>, todos os direitos reservados ©</div>
                 </div>
             </div>
         </div>

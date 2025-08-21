@@ -86,6 +86,39 @@
                 for(let j=0; j<value.length; j++){
                     tbl.plot(value[j],'nome,posicao,mensalista','Upp,Upp,Upp')
                 }
+                if(localStorage.getItem('access')=='0'){
+                    tbl.addEventListener('click',(e)=>{
+                        const data = e.target.parentNode.data
+                        e.preventDefault()
+                        const tbl = []
+
+                        const del = new Object
+                        del.label = 'Remover'
+                        del.link = ()=>{
+                            if(confirm(`Remover o atleta  ${data.nome} do time ${data.time}?`)){
+                                const params = new Object;   
+                                    params.id_racha = data.id_racha
+                                    params.id_atleta = data.id_atleta
+                                    params.time =  ''
+                                queryDB(params,'RCH-4').then((resolve)=>{
+                                    pageFunc.viewTimes()
+                                })
+                            }
+                        }            
+                        tbl.push(del)
+            
+                        const edit = new Object
+                        edit.label = 'Adicionar'
+                        edit.link = ()=>{
+                            openHTML('sel_atleta.html','pop-up','Seleção de Atletas',data)
+                        }            
+                        tbl.push(edit)          
+                        menuContext(tbl,e)
+
+                    })
+                }
+
+
             }
             pageFunc.viewJogos()
         })
@@ -109,6 +142,8 @@
     pageScreen.querySelector('#cmbData').addEventListener('change',()=>{
         pageFunc.viewTimes()
     })
+
+
 
     pageStart()
 
