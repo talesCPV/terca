@@ -211,7 +211,7 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT * FROM vw_extrato WHERE fulldate >= "',Idt_ini,' 00:00:00" AND fulldate <="',Idt_fin,' 23:59:59" ORDER BY id;');
+			SET @quer =CONCAT('SELECT * FROM vw_extrato WHERE fulldate >= "',Idt_ini,' 00:00:00" AND fulldate <="',Idt_fin,' 23:59:59" ORDER BY fulldate;');
 			PREPARE stmt1 FROM @quer;
 			EXECUTE stmt1;
 		ELSE
