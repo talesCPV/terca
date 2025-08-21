@@ -75,9 +75,70 @@ function loadPost(ini=0){
         for(let i=0; i<json.length; i++){
             const post = document.createElement('div')
             main.appendChild(post)
-            const texto = document.createElement('p')
+            post.className = 'post'
+
+            const head  = document.createElement('div')
+            post.appendChild(head)
+            head.className = 'post-head'
+
+            const head_left = document.createElement('div')
+            head.appendChild(head_left)
+            head_left.className = 'post-head-left'
+
+            const usr_img = document.createElement('img')
+            head_left.appendChild(usr_img)
+            usr_img.className = 'post-head-img'
+            usr_img.src = 'assets/user_default.png'
+
+            const usr_name = document.createElement('div')
+            head_left.appendChild(usr_name)
+            usr_name.className = 'post-head-name'
+            usr_name.innerHTML = json[i].nome
+
+            const head_rigth = document.createElement('div')
+            head.appendChild(head_rigth)
+            head_rigth.className = 'post-head-rigth'
+
+            if(localStorage.getItem('id_user') == json[i].id_usuario){
+
+                const btn_more = document.createElement('div')
+                head_rigth.appendChild(btn_more)
+                btn_more.className = 'btnMore'
+                btn_more.innerHTML = '...'
+    
+                btn_more.addEventListener('click',(e)=>{
+                    e.preventDefault()
+                    const tbl = []
+console.log(e.clientY)
+                    const del = new Object
+                    del.label = 'Deletar'
+                    del.link = ()=>{
+                        alert('Deletar Mensagem!')
+                    }            
+                    tbl.push(del)
+        
+                    const edit = new Object
+                    edit.label = 'Editar'
+                    edit.link = ()=>{
+                        alert('Editar Mensagem!')
+                    }            
+                    tbl.push(edit)          
+                    menuContext(tbl,e,1)
+                })
+            }
+
+            const texto = document.createElement('div')
             post.appendChild(texto)
+            texto.className = 'post-text'
             texto.innerHTML = json[i].texto
+
+            const data_hora  = document.createElement('div')
+            post.appendChild(data_hora)
+            data_hora.className = 'post-time'
+
+            const social  = document.createElement('div')
+            post.appendChild(social)
+            social.className = 'post-social'
 
         }
 

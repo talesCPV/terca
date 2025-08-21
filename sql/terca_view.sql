@@ -67,7 +67,6 @@ SELECT * FROM vw_extrato;
 
 SELECT * FROM vw_presenca;
 
-
 	DROP VIEW IF EXISTS vw_pontos;
  	CREATE VIEW vw_pontos AS   
 		SELECT COUNT(*) AS jogos, ATL.id AS id_atleta, ATL.nome, ATL.posicao, ATL.sexo,PRE.time,
@@ -85,3 +84,13 @@ SELECT * FROM vw_presenca;
 		ORDER BY vitoria DESC, derrota ASC, pt_pro DESC, pt_contra ASC;
 
 SELECT * FROM vw_pontos;
+
+	DROP VIEW IF EXISTS vw_posts;
+ 	CREATE VIEW vw_posts AS   
+		SELECT PST.id AS id_post, PST.id_post AS id_pai, PST.data_hora, PST.texto, USR.nome, USR.id AS id_usuario, USR.id_atleta
+		FROM tb_post AS PST
+		INNER JOIN tb_usuario AS USR
+		ON PST.id_usuario=USR.id
+		ORDER BY PST.data_hora;
+
+SELECT * FROM vw_posts;

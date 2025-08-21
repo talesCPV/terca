@@ -83,9 +83,9 @@ function newModal(title, content, width, id,type='pop-up'){
         mod_card.style.margin = '0 auto'
 //        mod_card.style.width = width
         mod_card.style.top = type=='web-window' ? '50%' : upper_page.top+'px' 
-        mod_card.style.left = type=='web-window' ? '50%' : upper_page.left+'px'
+        mod_card.style.left = '50%' // type=='web-window' ? '50%' : upper_page.left+'px'
         mod_card.style.overflow = 'auto'
-        mod_card.style.transform =  type=='web-window' ? 'translate(-50%, -50%)' : ''
+        mod_card.style.transform =  type=='web-window' ? 'translate(-50%, -50%)' : 'translate(-50%, 0)'
     }
     mod_card.addEventListener('mousedown',(e)=>{
         queueModal(id)
@@ -234,7 +234,7 @@ function menuContext(tbl,e,float=1){
             removeFrame()
         })
     const backModal = document.createElement('div')
-        backModal.classList = 'modal back-frame'
+        backModal.className = 'modal back-frame'
         backModal.id = 'context'
         backModal.style.zIndex = 9999
         backModal.style.display = 'block'
@@ -245,7 +245,7 @@ function menuContext(tbl,e,float=1){
         })
 
     const mod_card = document.createElement('div')
-        mod_card.classList = 'modal-content'
+        mod_card.className = 'modal-content float-menu'
         mod_card.id = 'card-context'       
         mod_card.style.position = 'absolute'
         mod_card.style.zIndex = 100

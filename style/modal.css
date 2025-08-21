@@ -155,10 +155,15 @@
     bottom: 0;  
   }
 
+  .float-menu{
+    margin-top: 0 !important;
+  }
+
   @media all and (max-width : 768px) {
     .modal-content {
       width: calc(100% - 20px) !important;
       left: 10px !important;
+      transform: unset !important;
     }
 
     .web-window{

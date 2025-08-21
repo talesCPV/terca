@@ -1,5 +1,10 @@
 /* POSTS */        
 
+
+.show-post{
+    width: 100%;
+}
+
 .post{
 /*    width: calc(100% - 120px);*/
     display: flex;
@@ -181,7 +186,7 @@
         align-items: center;
     }
     .post{
-        width: 90%;
+        width: calc(100% - 20px);
     }
 
     .post-comm .post{

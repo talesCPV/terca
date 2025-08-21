@@ -438,7 +438,7 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SELECT * FROM tb_post ORDER BY data_hora LIMIT Iini,10;
+			SELECT * FROM vw_posts ORDER BY data_hora LIMIT Iini,10;
         END IF;
 	END $$
 DELIMITER ;
