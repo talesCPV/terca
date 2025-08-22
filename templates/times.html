@@ -16,6 +16,7 @@
 
     <div class="inline">
         <select id="cmbData"></select>
+        <button id="btnExport">Exportar</button>
     </div>
 
     <div class="frm-times"></div>
@@ -143,7 +144,21 @@
         pageFunc.viewTimes()
     })
 
+    pageScreen.querySelector('#btnExport').addEventListener('click',()=>{
+        const sel = pageScreen.querySelector('#cmbData')
+        pageData.data = sel.options[sel.selectedIndex].text
+        const times = []
+        const key = ['A','B','C']
+        for( let i=0; i<key.length; i++){
+            if(pageData.times[key[i]] != undefined){
+                times.push(pageData.times[key[i]])
+            }
+        }
+        pageData.times = times
 
+
+        openHTML('sorteio.html','pop-up',`Times dia ${pageData.data}`,pageData)
+    })
 
     pageStart()
 
