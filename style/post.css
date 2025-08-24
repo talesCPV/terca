@@ -41,7 +41,7 @@
 
 .post-text{
     text-align: justify;
-    white-space: pre;
+/*    white-space: pre;*/
     display: flex;
     flex-direction: column;
 }
