@@ -20,11 +20,11 @@
         MyPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
             const tbl = pageScreen.querySelector('#tblPontos')
-            tbl.head('Atleta,Jogos|center,Vitórias|center,Derrotas|center,Pts Pró|center,Pts Contra|center')
+            tbl.head('Atleta,Jogos|center,Vitórias|center,Derrotas|center,Pts Pró|center,Pts Contra|center, Aprov.|center')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'nome,jogos|center,vitoria|center,derrota|center,pt_pro|center,pt_contra|center','Upp,int,int,int,int,int')
+                const aprov = (Number(json[i].vitoria) / Number(json[i].jogos) * 100).toFixed(0)
+                tbl.plot(json[i],`nome,jogos|center,vitoria|center,derrota|center,pt_pro|center,pt_contra|center,${aprov}%|center`,'Upp,int,int,int,int,int,let')
             }
-            console.log(json)
         })
     }
 

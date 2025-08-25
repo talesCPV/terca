@@ -56,14 +56,14 @@ async function openHTML(template='',where="main-screen",label="", data="",width=
 function newModal(title, content, width, id,type='pop-up'){
     const offset = 15
     const mod_main = document.querySelector('#main-screen')
-    mod_main.scrollTo(0, 0)    
+ 
     const pages = mod_main.querySelectorAll('.modal-content')    
     const upper_page = new Object
     upper_page.i = 0
     for(let i=1; i<pages.length; i++){
         upper_page.i = parseInt(pages[upper_page.i].style.zIndex) < parseInt(pages[i].style.zIndex) ? i : upper_page.i
     }
-
+//console.log(window.scrollY)
     if(pages[upper_page.i] == undefined){
         upper_page.zIndex = mod_main.querySelectorAll('.modal-content').length +1          
         upper_page.top = 50
@@ -87,6 +87,7 @@ function newModal(title, content, width, id,type='pop-up'){
         mod_card.style.overflow = 'auto'
         mod_card.style.transform =  type=='web-window' ? 'translate(-50%, -50%)' : 'translate(-50%, 0)'
     }
+    mod_card.style.scrollMarginTop = '100px';
     mod_card.addEventListener('mousedown',(e)=>{
         queueModal(id)
     })
@@ -182,10 +183,10 @@ function newModal(title, content, width, id,type='pop-up'){
         a.href = '#'+type
         a.click()
     }
-    
+    mod_card.scrollIntoView({ behavior: "smooth" });  
     mod_main.style.display = "flex"
-    
-    window.scrollTo(upper_page.left-82, upper_page.top);
+//    mod_main.scrollIntoView({ behavior: "smooth" });
+//    window.scrollTo(upper_page.left-82, upper_page.top);
 }
 
 function closeModal(id='all'){

@@ -81,6 +81,7 @@ function loadPost(ini=0){
         const main = document.querySelector('.show-post')
         main.innerHTML = ini ? main.innerHTML : ''
         for(let i=0; i<json.length; i++){
+           
             const post = document.createElement('div')
             main.appendChild(post)
             post.className = 'post'
@@ -146,6 +147,7 @@ function loadPost(ini=0){
             const data_hora  = document.createElement('div')
             post.appendChild(data_hora)
             data_hora.className = 'post-time'
+            data_hora.innerHTML = json[i].data_hora.viewFullDate() +' as '+json[i].data_hora.time() 
 
             const social  = document.createElement('div')
             post.appendChild(social)
