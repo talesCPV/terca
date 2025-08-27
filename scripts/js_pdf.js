@@ -21,13 +21,13 @@ var txt = new Object
     txt.dim = [90,80] 
 
 var imgData = new Image()
-    imgData.src = 'assets/reports/head.png'
+    imgData.src = 'assets/logo.png'
 
 /* FUNCTIONS */
 
 function addPage(Y=76){
     doc.addPage();
-    plotImg('assets/reports/head.png',0,0,210)    
+    plotImg('assets/logo.png',0,0,210)    
     txt.y = Y 
 }
 
@@ -189,7 +189,7 @@ function openPDF(doc,filename){
     const file = doc.output('blob')
     return uploadFile(file,`config/user/${localStorage.getItem('id_user')}/temp/`,`${filename}.pdf`).then(()=>{
         window.open(window.location.href+`config/user/${localStorage.getItem('id_user')}/temp/${filename}.pdf`, '_blank').focus();
-        loading()
+//        loading()
     })
 }
 
@@ -197,6 +197,6 @@ function savePDF(doc,path,filename){
     const file = doc.output('blob')
     return uploadFile(file,path,filename).then(()=>{
 //        window.open(window.location.href+path+filename, '_blank').focus();
-        loading()
+//        loading()
     })
 }

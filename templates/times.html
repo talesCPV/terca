@@ -21,6 +21,9 @@
 
     <div class="frm-times"></div>
     <table id="tblPlacar"></table>
+    <div class="line">
+        <button id="btnPrint">Imprimir</button>
+    </div>
 
 </template>
 <script>
@@ -31,7 +34,6 @@
     function pageStart(){
         pageFunc.viewRacha()
     }
-
 
     pageFunc.viewRacha = ()=>{
         const params = new Object;   
@@ -54,8 +56,13 @@
     }
 
     pageFunc.viewTimes = ()=>{
+
+        const sel = pageScreen.querySelector('#cmbData')
+        sel.options[sel.selectedIndex].data.data = sel.options[sel.selectedIndex].data.dia.viewDate()
+        pageData.racha = sel.options[sel.selectedIndex].data
+
         const params = new Object;   
-            params.id_racha = pageScreen.querySelector('#cmbData').value
+            params.id_racha = sel.value
         const MyPromisse = queryDB(params,'RCH-2')
         MyPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
@@ -131,6 +138,7 @@
         const MyPromisse = queryDB(params,'RCH-5')
         MyPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
+            pageData.jogos = json
             const tbl = pageScreen.querySelector('#tblPlacar')
             tbl.head('')
             for(let i=0; i<json.length; i++){
@@ -158,6 +166,10 @@
 
 
         openHTML('sorteio.html','pop-up',`Times dia ${pageData.data}`,pageData)
+    })
+
+    pageScreen.querySelector('#btnPrint').addEventListener('click',()=>{
+        print_jogos(pageData)
     })
 
     pageStart()
