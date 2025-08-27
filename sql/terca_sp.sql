@@ -424,7 +424,7 @@ DELIMITER ;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_pontos()
 	BEGIN
-		SELECT * FROM vw_pontos;
+		SELECT * FROM vw_pontos ORDER BY perc DESC, vitoria, jogos;
 	END $$
 DELIMITER ;
 
