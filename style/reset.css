@@ -274,6 +274,7 @@
 /*            align-items: center;*/
             justify-content: center;
             padding: 0 10px;
+            gap: 10px;
         }
 
         .inline label{
@@ -281,6 +282,14 @@
             width: 100%;
             padding-bottom: 0;
             margin-bottom: 0;
+        }
+
+        .inline button{
+            width: calc(100% - 20px);
+            border: solid 1px #9b9b9b;
+            border-radius: 8px;
+            background-color: #376131 !important;
+            color: #e8e8e8;
         }
 
         .inline *{
@@ -296,6 +305,17 @@
 /*            flex-direction: column;*/
             gap: 0;
             margin-top: 10px;
+        }
+
+        .line button{
+            border-radius: 8px;
+            background-color: #376131 !important;
+            color: #e8e8e8;
+        }
+
+        .line button:hover, .inline button:hover{            
+            background-color: #439643 !important;
+            color: #e8e8e8;
         }
 
         .modal-content{

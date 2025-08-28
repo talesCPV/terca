@@ -58,7 +58,13 @@
                 sel.appendChild(opt)
             }
             sel.selectedIndex = json.length-1
-            json.length ? pageFunc.viewPresenca() : alert('Nenhum racha programado!')
+            if(json.length){
+                pageFunc.viewPresenca() 
+            }else{
+                alert('Nenhum racha programado!')
+                closeModal('presenca')
+            }
+
         })
     }
 
