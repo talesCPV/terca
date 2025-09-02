@@ -1,6 +1,5 @@
 
 function print_jogos(dt){
-
     doc = new jsPDF({
         orientation: 'portrait',
         format: 'a4'
@@ -19,7 +18,23 @@ function print_jogos(dt){
     let i = 0
     let max_y = txt.y
 
+    while(dt.times[String.fromCharCode(65+i)] != undefined){
+        doc.setFont(undefined, 'bold')
+        doc.setFontSize(12);
+            doc.text(`Time ${String.fromCharCode(65+i)}`,40+60*i,txt.y)
+        for (let j=0; j<dt.times[String.fromCharCode(65+i)].length; j++) { 
+            doc.setFont(undefined, 'normal')
+            doc.setFontSize(10);
+            doc.text(dt.times[String.fromCharCode(65+i)][j].nome,40+60*i,txt.y+7+j*7)
+            max_y = max_y > txt.y+7+j*7 ? max_y : txt.y+7+j*7
+        }
+        i++
+    }
+
+/*
     for (const [key, time] of Object.entries(dt.times)) { 
+        console.log(key)
+
         doc.setFont(undefined, 'bold')
         doc.setFontSize(12);
             doc.text(`Time ${key}`,40+60*i,txt.y)
@@ -31,7 +46,7 @@ function print_jogos(dt){
         }
         i++
     }
-    
+*/
     txt.y = max_y
     addLine(3)
     doc.setFont(undefined, 'bold')
